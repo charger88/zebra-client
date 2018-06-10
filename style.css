@@ -85,6 +85,15 @@ main {
 	background: #f3f3f3;
 }
 
+main > * {
+	margin-top: 0;
+	margin-bottom: 1.2rem;
+}
+
+main > *:last-child {
+	margin-bottom: 0;
+}
+
 main form > * {
 	margin-bottom: 1.2rem;
 }
@@ -150,6 +159,8 @@ main .group input[type="password"]:last-child {
 
 main textarea {
 	line-height: 1.5rem;
+	min-height: 16rem;
+	resize: vertical;
 }
 
 main textarea:focus,
@@ -198,4 +209,11 @@ footer p {
 
 #share-form-mode > li {
 	margin-right: 1rem;
+}
+
+#shared-text {
+	padding: 1.8rem 2.4rem;
+	margin: -1.8rem -2.4rem 1.2rem -2.4rem;
+	background: #ffffff;
+	white-space: pre-wrap;
 }
