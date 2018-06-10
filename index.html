@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" data-main="app/app" src="require.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+	<header>
+		<div id="logo"></div>
+		<div id="instance-name"><a href="#"></a></div>
+	</header>
+	<div id="body-wrapper">
+		<nav id="menu">
+			<ul>
+				<li><a href="#open">Open by key</a></li>
+				<li><a href="#share">Share text</a></li>
+			</ul>
+		</nav>
+		<main id="main"></main>
+		<footer>
+			<p>Use your own instance of <a href="http://zebra.tips">Zebra</a> for your private secured data sharing.</p>
+			<p>If you have any problem with this site send email to <span>dev@null</span></p>
+		</footer>
+	</div>
+	<script type="text/template" id="tpl-index">
+		Index page
+	</script>
+	<script type="text/template" id="tpl-open-form">
+		<form id="open-form">
+			<div class="group">
+				<input type="text" name="key" autocomplete="off" placeholder="Key" required="required" value="" />
+				<input type="password" name="password" autocomplete="off" placeholder="Password (if needed)" value="" />
+			</div>
+			<div><button>Open</button></div>
+		</form>
+	</script>
+	<script type="text/template" id="tpl-share-form">
+		<form id="share-form">
+			<div class="group">
+				<textarea name="data" placeholder="Data for sharing" required="required" value=""></textarea>
+				<input type="number" name="expiration" min="10" max="86400" autocomplete="off" placeholder="Expiration (in seconds, 1 hour default)" value="" />
+				<input type="password" name="password" autocomplete="off" placeholder="Password (optional)" value="" />
+			</div>
+			<div><label><input type="checkbox" name="burn" value="1" /> Delete after first opening</label></div>
+			<div>
+				<h5>Key format</h5>
+				<ul id="share-form-mode">
+					<li><label><input type="radio" name="mode" value="uppercase-lowercase-digits" checked="checked" /> Uppercase, lowercase, digits</label></li>
+					<li><label><input type="radio" name="mode" value="lowercase-digits" /> Lowercase, digits</label></li>
+					<li><label><input type="radio" name="mode" value="lowercase" /> Lowercase</label></li>
+					<li><label><input type="radio" name="mode" value="digits" /> Digits</label></li>
+				</ul>
+			</div>
+			<div><button>Share</button></div>
+		</form>
+	</script>
+	<script type="text/template" id="tpl-shared-text">
+		<div id="shared-text"></div>
+		<input type="text" readonly="readonly" id="shared-text-url" />
+	</script>
+</body>
+</html>
