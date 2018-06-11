@@ -1,5 +1,24 @@
 define([], function () {
     return {
+    	'formatCode': (code) => {
+    		const blockSize = code.length > 9 ? 4 : 3;
+    		var chunks = [];
+    		var chunkSize;
+    		if (code.length > 4){
+	    		while (l = code.length){
+	    			chunkSize = l % blockSize;
+	    			chunkSize = chunkSize == 0 ? blockSize : (chunkSize == 1 ? 2 : chunkSize);
+	    			chunks.push(code.substr(0, chunkSize));
+	    			code = code.substr(chunkSize);
+	    		}
+	    	} else {
+	    		chunks.push(code);
+	    	}
+    		return chunks.join("-");
+    	},
+    	'deFormatCode': (code) => {
+			return code.split("-").join("");
+    	},
     	'ajax': (method, uri, data, headers, successCallback, errorCallback, anywayCallback) => {
     		method = method || 'GET';
     		uri = uri || '';

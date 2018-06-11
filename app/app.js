@@ -1,14 +1,20 @@
 requirejs(["router", "helpers"], function(router, helpers) {
 	const initApp = (config) => {
 		window.appConfig = config;
-		document.querySelector("title").appendChild(document.createTextNode(config.name));
+		document.querySelector("title").appendChild(document.createTextNode("🦓 " + config.name));
 		document.querySelector("#instance-name a").appendChild(document.createTextNode(config.name));
 	}
 	const loadAPIUrl = () => {
-		var apiURL = sessionStorage.getItem('api-url');
-		if (apiURL === null){
-			apiURL = prompt("Please, input URL of Zebra API to work with");
-			sessionStorage.setItem('api-url', apiURL);
+		var apiURL = document.location.search || "?";
+		if (apiURL !== "?"){
+			apiURL = apiURL.substr(1);
+		}
+		if (apiURL.length === 0){
+			apiURL = sessionStorage.getItem('api-url');
+			if (apiURL === null){
+				apiURL = prompt("Please, input URL of Zebra API to work with");
+				sessionStorage.setItem('api-url', apiURL);
+			}
 		}
 		return apiURL;
 	};
