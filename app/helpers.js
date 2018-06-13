@@ -23,7 +23,7 @@ define([], function () {
     		document.getElementById("main").classList.remove("loading");
     		document.getElementById("main").classList.add("error");
     		document.getElementById("main").innerHTML = document.getElementById("tpl-error").innerHTML;
-    		if (response['error-message'].length > 0){
+    		if (response['error-message'] && (response['error-message'].length > 0)){
     			document.getElementById("error-message").innerHTML = response['error-message'].charAt(0).toUpperCase() + response['error-message'].substr(1) + ".";
     		}
     	},
@@ -66,12 +66,16 @@ define([], function () {
 					if ((this.readyState == 4) && (this.status >= 200) && (this.status < 300)) {
 						successCallback(response, this.status);
 					} else {
+						console.log(this);
 						errorCallback(response, this.status);
 					}
 					anywayCallback(response);
 				}
 			};
 			xhttp.open(method, uri, true);
+			if (window.appConfig && window.appConfig['x-api-key']){
+			    xhttp.setRequestHeader('X-Api-Key', window.appConfig['x-api-key']);
+			}
 		    xhttp.setRequestHeader('Content-type', 'application/json');
 		    headers.forEach(function (header) {
 		        xhttp.setRequestHeader(header['name'], header['value']);
