@@ -1,14 +1,6 @@
 requirejs(["router", "helpers"], function(router, helpers) {
 	const initApp = (config) => {
 		window.appConfig = config;
-		if (window.appConfig['require-api-key']){
-			var xApiKey = sessionStorage.getItem('x-api-key');
-			if (xApiKey === null){
-				xApiKey = prompt("Please, provide you X-API-Key");
-				sessionStorage.setItem("x-api-key", xApiKey);
-			}
-			window.appConfig['x-api-key'] = xApiKey;
-		}
 		document.querySelector("title").appendChild(document.createTextNode("🦓 " + config.name));
 		document.querySelector("#instance-name a").appendChild(document.createTextNode(config.name));
 		document.querySelector("header").style.background = config.color;

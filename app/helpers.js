@@ -19,6 +19,16 @@ define([], function () {
     	'deFormatCode': (code) => {
 			return code.split("-").join("");
     	},
+    	'getXAPIKey': () => {
+			var xApiKey = sessionStorage.getItem('x-api-key');
+			if ((xApiKey === null) || (xApiKey === "null")){
+				xApiKey = prompt("Please, provide you X-API-Key");
+				if (xApiKey){
+					sessionStorage.setItem("x-api-key", xApiKey);
+				}
+			}
+			return xApiKey;
+    	},
     	'renderErrorCallbackInMain': (response, status) => {
     		document.getElementById("main").classList.remove("loading");
     		document.getElementById("main").classList.add("error");
@@ -66,19 +76,18 @@ define([], function () {
 					if ((this.readyState == 4) && (this.status >= 200) && (this.status < 300)) {
 						successCallback(response, this.status);
 					} else {
-						console.log(this);
 						errorCallback(response, this.status);
 					}
 					anywayCallback(response);
 				}
 			};
 			xhttp.open(method, uri, true);
-			if (window.appConfig && window.appConfig['x-api-key']){
-			    xhttp.setRequestHeader('X-Api-Key', window.appConfig['x-api-key']);
-			}
 		    xhttp.setRequestHeader('Content-type', 'application/json');
 		    headers.forEach(function (header) {
-		        xhttp.setRequestHeader(header['name'], header['value']);
+		    	console.log(header);
+		    	if (header['value'] !== null){
+		        	xhttp.setRequestHeader(header['name'], header['value']);
+		    	}
 		    });
 			xhttp.send(data ? JSON.stringify(data) : null);
     	}

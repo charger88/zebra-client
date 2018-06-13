@@ -159,6 +159,7 @@ main form input[type="number"] {
 
 main form .group > * {
 	position: relative;
+	overflow: hidden;
 }
 
 main form .group > * label {
@@ -169,6 +170,7 @@ main form .group > * label {
 	bottom: 0.15rem;
 	left: 1.6rem;
 	color: #cccccc;
+    white-space: nowrap;
 	transition: all 0.25s;
 	transition-timing-function: linear;
 }
@@ -269,7 +271,12 @@ footer {
 
 footer p {
 	margin: 0;
+	margin-bottom: 0.5rem;
 	font-size: 0.8rem;
+}
+
+footer p:last-child {
+	margin-bottom: 0rem;
 }
 
 #share-form-mode {
@@ -412,4 +419,57 @@ footer p {
     0% { opacity: 1.0; }
     50% { opacity: 0.1; }
     100% { opacity: 1.0; }
-} 
+}
+
+@media all and (max-width: 960px) {
+
+	header {
+		position: static;
+		box-shadow: none;
+	}
+
+	header #instance-name {
+		position: static;
+		margin-left: 0;
+		text-align: center;
+	    min-height: 3.1rem;
+        line-height: 1.5rem;
+	    border-top: 0.2rem solid #ffffff;
+	}
+
+	nav#menu {
+		margin-top: 0;
+	}
+
+	nav#menu ul {
+		display: block;
+		font-size: 1rem;
+		padding: 0;
+	}
+
+	nav#menu ul li a {
+		text-align: center;
+    	padding: 1.25rem 1rem 1.15rem 1rem;
+    	border-radius: 0;
+	}
+
+	main form .group > * textarea:focus + label,
+	main form .group > * input[type="text"]:focus + label,
+	main form .group > * input[type="number"]:focus + label,
+	main form .group > * input[type="password"]:focus + label {
+		left: 1.6rem;
+	}
+
+	#share-form-mode {
+		display: block;
+	}
+
+	#share-form-mode > li {
+		width: auto;
+	}
+
+	main form button {
+		width: 100%;
+	}
+
+}

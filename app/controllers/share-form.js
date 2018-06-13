@@ -13,7 +13,14 @@ define(['helpers'], function (helpers) {
 	    localStorage.setItem("share-form-mode", data["mode"]);
     	localStorage.setItem("share-form-expiration", data["expiration"]);
     	data["expiration"] = data["expiration"] ? data["expiration"] : 3600;
-		helpers.ajax("POST", window.apiURL + "/stripe", data, [], (response) => {
+		var headers = [];
+		if (window.appConfig && window.appConfig['require-api-key']){
+			headers.push({
+				"name": "X-Api-Key",
+				"value": helpers.getXAPIKey()
+			});
+		}
+		helpers.ajax("POST", window.apiURL + "/stripe", data, headers, (response) => {
 			window.lastSharedStripe = response;
 			window.lastSharedStripe['data'] = data["data"];
 			window.location.hash = "#open/" + helpers.deFormatCode(response.key) + (data["password"] ? "/p" : "");

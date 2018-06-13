@@ -23,7 +23,14 @@ define(['helpers'], function (helpers) {
 	    			var p = prompt("Password required");
 	    			data.push("password=" + encodeURIComponent(p));
 	    		}
-				helpers.ajax("GET", window.apiURL + "/stripe?" + data.join('&'), {}, [], (response) => {
+	    		var headers = [];
+	    		if (window.appConfig && window.appConfig['require-api-key'] && !window.appConfig['require-api-key-for-post-only']){
+	    			headers.push({
+	    				"name": "X-Api-Key",
+	    				"value": helpers.getXAPIKey()
+	    			});
+				}
+				helpers.ajax("GET", window.apiURL + "/stripe?" + data.join('&'), {}, headers, (response) => {
 					context.data = response;
 					renderCallback(context);
 				}, helpers.renderErrorCallbackInMain);
