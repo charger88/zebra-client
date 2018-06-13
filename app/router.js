@@ -33,6 +33,7 @@ define([
 			}
 	    	renderCallback(context);
 	    	context.$el.classList.remove("loading");
+	    	context.$el.classList.remove("error");
 	    	selected = document.querySelector(`nav a[href="${window.location.hash}"]`);
 			if (selected !== null){
 				selected.classList.add('selected');
@@ -47,7 +48,7 @@ define([
     		if (route[1]){
 				return processController(sharedText, {
 					"key": route[1],
-					"password-required": route[2] == "password"
+					"password": route[2] == "p"
 				});
     		} else {
 				return processController(openForm);

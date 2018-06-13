@@ -19,6 +19,31 @@ define([], function () {
     	'deFormatCode': (code) => {
 			return code.split("-").join("");
     	},
+    	'renderErrorCallbackInMain': (response, status) => {
+    		document.getElementById("main").classList.remove("loading");
+    		document.getElementById("main").classList.add("error");
+    		document.getElementById("main").innerHTML = document.getElementById("tpl-error").innerHTML;
+    		if (response['error-message'].length > 0){
+    			document.getElementById("error-message").innerHTML = response['error-message'].charAt(0).toUpperCase() + response['error-message'].substr(1) + ".";
+    		}
+    	},
+    	'countdownString': (countdown) => {
+			if (countdown){
+				const timestamp = Math.ceil(Date.now() / 1000);
+				const diff = countdown > timestamp ? (countdown - timestamp) : 0;
+				var h = Math.floor(diff / 3600);
+				var m = Math.floor(diff % 3600 / 60);
+				var s = Math.floor(diff % 60);
+				return {
+					"clock": (h + ":" + (m >= 10 ? m : "0" + m) + ":" + (s >= 10 ? s : "0" + s)),
+					"status": (diff < 60) ? ((diff > 0) ? "warning" : "gone") : "normal"
+				};
+			}
+			return {
+				"clock": "",
+				"status": "normal"
+			};
+    	},
     	'ajax': (method, uri, data, headers, successCallback, errorCallback, anywayCallback) => {
     		method = method || 'GET';
     		uri = uri || '';
@@ -34,7 +59,7 @@ define([], function () {
 				if (!((this.readyState == 1) || (this.readyState == 2) || (this.readyState == 3))) {
 					var response;
 					try {
-						response = JSON.parse(this.response)
+						response = JSON.parse(this.response);
 					} catch (e){
 						response = {"response": this.response};
 					}

@@ -4,6 +4,7 @@
 	<title></title>
 	<script type="text/javascript" data-main="app/app" src="require.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css" />
+	<link rel="icon" href="favicon.png" />
 </head>
 <body>
 	<header>
@@ -35,9 +36,9 @@
 					<input type="text" name="key" id="open-form-key" autocomplete="off" required="required" value="" />
 					<label for="open-form-key">Key</label>
 				</div>
-				<div>
+				<div id="open-form-password-wrapper">
 					<input type="password" name="password" id="open-form-password" autocomplete="off" value="" />
-					<label for="open-form-password">Password (if required)</label>
+					<label for="open-form-password">Password<span id="open-form-password-optional"> (if required)</span></label>
 				</div>
 			</div>
 			<div><button>Open</button></div>
@@ -54,16 +55,16 @@
 					<input type="number" name="expiration" id="share-form-expiration" min="10" max="86400" autocomplete="off" value="" />
 					<label for="share-form-expiration">Expiration (in seconds, 1 hour default)</label>
 				</div>
-				<div>
+				<div id="share-form-password-wrapper">
 					<input type="password" name="password" id="share-form-password" autocomplete="off" value="" />
-					<label for="share-form-password">Password (optional)</label>
+					<label for="share-form-password">Password<span id="share-form-password-optional"> (optional)</span></label>
 				</div>
 			</div>
 			<div><label><input type="checkbox" name="burn" id="share-form-burn" value="1" /><span> Delete after first opening 🔥</span></label></div>
 			<div>
 				<h5>Set of characters for key <span>(e.g.</span> <span id="share-form-mode-example"></span><span>)</span></h5>
 				<ul id="share-form-mode">
-					<li><label title="Uppercase, lowercase, digits"><input type="radio" name="mode" value="uppercase-lowercase-digits" data-example="AxWGv" checked="checked" /><span>A-Z, a-z, 0-9</span></label></li>
+					<li><label title="Uppercase, lowercase, digits"><input type="radio" name="mode" value="uppercase-lowercase-digits" data-example="Ax9Gv" checked="checked" /><span>A-Z, a-z, 0-9</span></label></li>
 					<li><label title="Uppercase, digits"><input type="radio" name="mode" value="uppercase-digits" data-example="ZYIV24" /><span>A-Z, 0-9</span></label></li>
 					<li><label title="Uppercase"><input type="radio" name="mode" value="uppercase" data-example="CVKNKHF" /><span>A-Z</span></label></li>
 					<li><label title="Digits"><input type="radio" name="mode" value="digits" data-example="648466829" /><span>0-9</span></label></li>
@@ -74,7 +75,25 @@
 	</script>
 	<script type="text/template" id="tpl-shared-text">
 		<div id="shared-text"></div>
-		<input type="text" readonly="readonly" id="shared-text-url" />
+		<div id="shared-text-info">
+			<div>
+				<div>
+					<input type="text" readonly="readonly" id="shared-text-key" />
+					<label for="shared-text-key">Copy key into clipboard</label>
+				</div>
+				<div>
+					<input type="text" readonly="readonly" id="shared-text-url" />
+					<label for="shared-text-url">Copy URL into clipboard</label>
+				</div>
+			</div>
+			<div>
+				<div class="countdown" data-countdown="" id="shared-text-countdown"><span></span></div>
+			</div>
+		</div>
+	</script>
+	<script type="text/template" id="tpl-error">
+		<h1 id="error-code">Error</h1>
+		<p id="error-message"></p>		
 	</script>
 </body>
 </html>

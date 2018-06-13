@@ -123,7 +123,7 @@ main form ul {
 	margin: 0;
 }
 
-main input[type="checkbox"] + span {
+main form input[type="checkbox"] + span {
 	opacity: 0.5;
 	color: #338ccc;
 	cursor: pointer;
@@ -131,14 +131,14 @@ main input[type="checkbox"] + span {
 	transition-timing-function: linear;
 }
 
-main input[type="checkbox"]:checked + span {
+main form input[type="checkbox"]:checked + span {
 	opacity: 1;
 }
 
-main textarea,
-main input[type="text"],
-main input[type="number"],
-main input[type="password"] {
+main form textarea,
+main form input[type="text"],
+main form input[type="number"],
+main form input[type="password"] {
 	width: 100%;
 	box-sizing: border-box;
 	border: 1px solid #cccccc;
@@ -153,15 +153,15 @@ main input[type="password"] {
 	transition-timing-function: linear;
 }
 
-main input[type="number"] {
+main form input[type="number"] {
 	padding-right: 0;
 }
 
-main .group > * {
+main form .group > * {
 	position: relative;
 }
 
-main .group > * label {
+main form .group > * label {
 	font-size: 0.7rem;
 	text-transform: uppercase;
 	z-index: 3;
@@ -173,58 +173,60 @@ main .group > * label {
 	transition-timing-function: linear;
 }
 
-main .group > * textarea:focus + label,
-main .group > * input[type="text"]:focus + label,
-main .group > * input[type="number"]:focus + label,
-main .group > * input[type="password"]:focus + label {
+main form .group > * textarea:focus + label,
+main form .group > * input[type="text"]:focus + label,
+main form .group > * input[type="number"]:focus + label,
+main form .group > * input[type="password"]:focus + label {
 	color: #338ccc;
 	left: 50%;
 }
 
-main .group > * textarea,
-main .group > * input[type="text"],
-main .group > * input[type="number"],
-main .group > * input[type="password"] {
+main form .group > * textarea,
+main form .group > * input[type="text"],
+main form .group > * input[type="number"],
+main form .group > * input[type="password"] {
 	border-radius: 0;
 	margin-top: -1px;
 }
 
-main .group > *:first-child textarea,
-main .group > *:first-child input[type="text"],
-main .group > *:first-child input[type="number"],
-main .group > *:first-child input[type="password"] {
-	border-radius: 0.6rem 0.6rem 0 0;
+main form .group > *:first-child textarea,
+main form .group > *:first-child input[type="text"],
+main form .group > *:first-child input[type="number"],
+main form .group > *:first-child input[type="password"] {
+	border-top-left-radius: 0.6rem;
+	border-top-right-radius: 0.6rem;
 	border-top-width: 1px;
 	margin-top: 0;
 }
 
-main .group > *:last-child textarea,
-main .group > *:last-child input[type="text"],
-main .group > *:last-child input[type="number"],
-main .group > *:last-child input[type="password"] {
-	border-radius: 0 0 0.6rem 0.6rem;
+main form .group > *:last-child textarea,
+main form .group > *:last-child input[type="text"],
+main form .group > *:last-child input[type="number"],
+main form .group > *:last-child input[type="password"] {
+	border-bottom-left-radius: 0.6rem;
+	border-bottom-right-radius: 0.6rem;
 }
 
-main textarea {
+main form textarea {
 	line-height: 1.5rem;
 	min-height: 16rem;
 	resize: vertical;
 }
 
-main .group > * textarea:focus,
-main .group > * input[type="text"]:focus,
-main .group > * input[type="number"]:focus,
-main .group > * input[type="password"]:focus {
+main form .group > * textarea:focus,
+main form .group > * input[type="text"]:focus,
+main form .group > * input[type="number"]:focus,
+main form .group > * input[type="password"]:focus {
 	border-color: #338ccc;
 	position: relative;
 	z-index: 2;
 }
 
-main textarea {
+main form textarea {
 	height: 16rem;
 }
 
-main button {
+main form button {
 	cursor: pointer;
 	border: 0;
 	box-sizing: border-box;
@@ -243,11 +245,22 @@ main button {
 	transition-timing-function: linear;
 }
 
-main button:active {
+main form button:active {
 	margin-top: 0.3rem;
     margin-bottom: 0;
 	background: #425766;
     box-shadow: none;
+}
+
+main.loading {
+    animation-name: blinker;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+main.error {
+	color: #b30000;
 }
 
 footer {
@@ -312,3 +325,91 @@ footer p {
 	background: #ffffff;
 	white-space: pre-wrap;
 }
+
+#shared-text-info {
+	display: flex;
+}
+
+#shared-text-info > * {
+	width: 50%;
+	margin-right: 2rem;
+}
+
+#shared-text-info > *:last-child {
+	margin-right: 0;
+}
+
+#shared-text-info > * > * {
+	margin-bottom: 1.2rem;	
+}
+
+#shared-text-info > * > *:last-child {
+	margin-bottom: 0;
+}
+
+#shared-text-info label {
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 0.7rem;
+	display: block;
+	cursor: pointer;
+	color: #338ccc;
+}
+
+#shared-text-key, #shared-text-url {
+	background: transparent;
+	border: 0;
+	color: #cccccc;
+	border-bottom: 1px dashed;
+	font-size: 1rem;
+	width: 100%;
+	text-align: center;
+	transition: all 0.5s;
+	display: block;
+	padding-bottom: 0.2rem;
+	margin-bottom: 0.2rem
+}
+
+#shared-text-key {
+	font-size: 2rem;
+}
+
+#shared-text-key.copying, #shared-text-url.copying {
+	color: #338ccc;
+}
+
+#shared-text-countdown {
+	font-family: monospace;
+	font-size: 2rem;
+    background: #cccccc;
+    text-align: center;
+    color: #ffffff;
+    line-height: 2rem;
+    height: 2rem;
+    padding: 0.3rem;
+}
+
+#shared-text-countdown.warning {
+	background: #b30000;
+}
+
+#shared-text-countdown.warning > span {
+	animation-name: blinker;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+#shared-text-countdown.gone {
+	background: #b30000;
+}
+
+#shared-text-countdown.gone {
+	background: #b30000;
+}
+
+@keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.1; }
+    100% { opacity: 1.0; }
+} 
