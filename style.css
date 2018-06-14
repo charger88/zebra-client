@@ -468,6 +468,10 @@ footer p:last-child {
 		width: auto;
 	}
 
+	main {
+        min-height: 10.4rem;
+	}
+
 	main form button {
 		width: 100%;
 	}
