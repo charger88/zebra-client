@@ -37,12 +37,38 @@ define(['helpers'], function (helpers) {
 			}
     	},
 	    render: (context) => {
+	    	var ownerKey = localStorage.getItem("OWNER:" + context.data.key);
   			context.$el.querySelector("#shared-text").appendChild(document.createTextNode(context.data.data));
 			context.$el.querySelector("#shared-text-key").value = helpers.formatCode(context.data.key);
   			context.$el.querySelector('label[for="shared-text-key"]').addEventListener("click", copyValue, false);
   			context.$el.querySelector("#shared-text-url").value = window.appConfig.url + "#open/" + context.data.key + (context.data.password ? "/p" : "");
 	    	context.$el.querySelector('label[for="shared-text-url"]').addEventListener("click", copyValue, false);
   			context.$el.querySelector("#shared-text-countdown").setAttribute("data-countdown", context.data.expiration);
+			if (ownerKey){
+				var $st = context.$el.querySelector('#shared-text-delete');
+				$st.querySelector('a').addEventListener("click", (e) => {
+					e.preventDefault();
+					var countdown = context.$el.querySelector("#shared-text-countdown");
+					var data = [];
+		    		data.push("key=" + encodeURIComponent(context.request.key));
+		    		data.push("owner-key=" + encodeURIComponent(ownerKey));
+		    		var headers = [];
+					if (window.appConfig && window.appConfig['require-api-key']){
+						headers.push({
+							"name": "X-Api-Key",
+							"value": helpers.getXAPIKey()
+						});
+					}
+					helpers.ajax("DELETE", window.apiURL + "/stripe?" + data.join('&'), {}, headers, (response) => {
+						countdown.setAttribute("data-countdown", 0);
+						while ($st.firstChild) {
+						    $st.removeChild($st.firstChild);
+						}
+						$st.remove();
+					});
+				}, false);
+				$st.style.display = "block";
+			}
   			var countdownObj = context.$el.querySelector("#shared-text-countdown");
   			var countdown = helpers.countdownString(context.data.expiration);
 			countdownObj.querySelector('span').innerHTML = countdown.clock;

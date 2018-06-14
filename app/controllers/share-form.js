@@ -21,6 +21,7 @@ define(['helpers'], function (helpers) {
 			});
 		}
 		helpers.ajax("POST", window.apiURL + "/stripe", data, headers, (response) => {
+			localStorage.setItem("OWNER:" + response['key'], response['owner-key']);
 			window.lastSharedStripe = response;
 			window.lastSharedStripe['data'] = data["data"];
 			window.location.hash = "#open/" + helpers.deFormatCode(response.key) + (data["password"] ? "/p" : "");

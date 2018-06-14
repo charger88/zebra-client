@@ -415,6 +415,19 @@ footer p:last-child {
 	background: #b30000;
 }
 
+#shared-text-delete-wrapper {
+	display: none;
+}
+
+#shared-text-delete {
+    display: block;
+    margin-top: -0.5rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+}
+
 @keyframes blinker {  
     0% { opacity: 1.0; }
     50% { opacity: 0.1; }
