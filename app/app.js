@@ -5,8 +5,8 @@ requirejs(["router", "helpers"], function(router, helpers) {
 		}
 		const versions = ["1.0."];
 		for (var i = 0;i < versions.length;i++){
-			if (version.indexOf(versions[i]) === 0){
-				return true
+			if (version.startsWith(versions[i])){
+				return true;
 			}
 		}
 		return false;
