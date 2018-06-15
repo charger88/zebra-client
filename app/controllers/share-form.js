@@ -36,6 +36,12 @@ define(['helpers'], function (helpers) {
     	el: "main",
     	template: "tpl-share-form",
 	    render: (context) => {
+	    	if (window.appConfig && window.appConfig['require-api-key'] && !sessionStorage.getItem('x-api-key')){
+	    		if (!confirm("System will ask you for API Key to proceed. If you don't have one press \"Cancel\".")){
+	    			window.location.hash = "#";
+	    			return null;
+	    		}
+	    	}
 	    	context.$el.querySelector('#share-form').addEventListener("submit", submitForm, false);
 	    	context.$el.querySelectorAll('#share-form-mode input').forEach(function(item) {
 	    		item.addEventListener("click", shareFormMode, false);
