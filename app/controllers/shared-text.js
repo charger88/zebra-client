@@ -2,7 +2,7 @@ define(['helpers'], function (helpers) {
 	const copyValue = (e) => {
 		var input = document.getElementById(e.target.getAttribute("for"));
 		input.classList.add("copying");
-		input.setSelectionRange(0, input.value.length);
+		input.select();
 		document.execCommand("copy");
 		input.setSelectionRange(0, 0);
 		setTimeout(function(){
