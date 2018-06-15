@@ -1,29 +1,12 @@
-define(['helpers'], function (helpers) {
-	const copyValue = (e) => {
-		var elem = document.getElementById(e.target.getAttribute("for"));
-		elem.classList.add("copying");
-		var newElement = false;
-		if (elem.tagName.toUpperCase() == 'INPUT'){
-			input = elem;
-		} else {
-			input = document.createElement('textarea');
-			input.value = elem.innerHTML;
-			input.style.margin = "-10000px 0 0 0";
-			elem.appendChild(input);
-			newElement = true;
-		}
-		input.select();
-		document.execCommand("copy");
-		input.setSelectionRange(0, 0);
-		!newElement || elem.removeChild(input);
-		setTimeout(function(){
-			elem.classList.remove("copying");
-		}, 500);
-	};
-    return {
-    	el: "main",
-    	template: "tpl-shared-text",
-    	init: (context, renderCallback) => {
+define(['helpers', 'controllers/controller'], function (helpers, Controller) {
+    return class extends Controller {
+    	el(){
+    		return "main";
+    	}
+    	template(){
+    		return "tpl-shared-text";
+    	}
+    	init(context, renderCallback){
 			if (window.lastSharedStripe && window.lastSharedStripe.key === context.request.key){
 				context.data = window.lastSharedStripe;
     			renderCallback(context);
@@ -46,8 +29,29 @@ define(['helpers'], function (helpers) {
 					renderCallback(context);
 				}, helpers.renderErrorCallbackInMain);
 			}
-    	},
-	    render: (context) => {
+    	}
+	    render(context){
+	    	const copyValue = (e) => {
+				var elem = document.getElementById(e.target.getAttribute("for"));
+				elem.classList.add("copying");
+				var newElement = false;
+				if (elem.tagName.toUpperCase() == 'INPUT'){
+					input = elem;
+				} else {
+					input = document.createElement('textarea');
+					input.value = elem.innerHTML;
+					input.style.margin = "-10000px 0 0 0";
+					elem.appendChild(input);
+					newElement = true;
+				}
+				input.select();
+				document.execCommand("copy");
+				input.setSelectionRange(0, 0);
+				!newElement || elem.removeChild(input);
+				setTimeout(function(){
+					elem.classList.remove("copying");
+				}, 500);
+			};
 	    	var ownerKey = localStorage.getItem("OWNER:" + context.data.key);
   			context.$el.querySelector("#shared-text-data").appendChild(document.createTextNode(context.data.data));
   			context.$el.querySelector('label[for="shared-text-data"]').addEventListener("click", copyValue, false);
@@ -91,5 +95,5 @@ define(['helpers'], function (helpers) {
 				countdownObj.classList.add("gone");
 			}
 	    }
-	};
+    }
 });
