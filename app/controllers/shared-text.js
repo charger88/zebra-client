@@ -1,12 +1,23 @@
 define(['helpers'], function (helpers) {
 	const copyValue = (e) => {
-		var input = document.getElementById(e.target.getAttribute("for"));
-		input.classList.add("copying");
+		var elem = document.getElementById(e.target.getAttribute("for"));
+		elem.classList.add("copying");
+		var newElement = false;
+		if (elem.tagName.toUpperCase() == 'INPUT'){
+			input = elem;
+		} else {
+			input = document.createElement('textarea');
+			input.value = elem.innerHTML;
+			input.style.margin = "-10000px 0 0 0";
+			elem.appendChild(input);
+			newElement = true;
+		}
 		input.select();
 		document.execCommand("copy");
 		input.setSelectionRange(0, 0);
+		!newElement || elem.removeChild(input);
 		setTimeout(function(){
-			input.classList.remove("copying");
+			elem.classList.remove("copying");
 		}, 500);
 	};
     return {
@@ -38,7 +49,8 @@ define(['helpers'], function (helpers) {
     	},
 	    render: (context) => {
 	    	var ownerKey = localStorage.getItem("OWNER:" + context.data.key);
-  			context.$el.querySelector("#shared-text").appendChild(document.createTextNode(context.data.data));
+  			context.$el.querySelector("#shared-text-data").appendChild(document.createTextNode(context.data.data));
+  			context.$el.querySelector('label[for="shared-text-data"]').addEventListener("click", copyValue, false);
 			context.$el.querySelector("#shared-text-key").value = helpers.formatCode(context.data.key);
   			context.$el.querySelector('label[for="shared-text-key"]').addEventListener("click", copyValue, false);
   			context.$el.querySelector("#shared-text-url").value = window.appConfig.url + "#open/" + context.data.key + (context.data.password ? "/p" : "");

@@ -334,6 +334,13 @@ footer p:last-child {
 	white-space: pre-wrap;
 }
 
+#shared-text-data {
+    border-bottom: 1px dashed #cccccc;
+    padding-bottom: 0.2rem;
+    margin-bottom: 0.2rem;
+	transition: all 0.5s;
+}
+
 #shared-text-info {
 	display: flex;
 }
@@ -355,7 +362,7 @@ footer p:last-child {
 	margin-bottom: 0;
 }
 
-#shared-text-info label {
+#shared-text label, #shared-text-info label {
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 0.7rem;
@@ -382,7 +389,7 @@ footer p:last-child {
 	font-size: 2rem;
 }
 
-#shared-text-key.copying, #shared-text-url.copying {
+#shared-text-data.copying, #shared-text-key.copying, #shared-text-url.copying {
 	color: #338ccc;
 }
 
@@ -436,7 +443,7 @@ footer p:last-child {
 	div#body-wrapper {
 		max-width: 100%;
 	}
-	
+
 	header {
 		position: static;
 		box-shadow: none;
