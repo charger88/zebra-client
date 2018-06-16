@@ -1,4 +1,4 @@
-define(['helpers', 'controllers/controller'], function (helpers, Controller) {
+define(['helpers', 'controllers/controller', 'crypto/aes'], function (helpers, Controller, tmp) {
     return class extends Controller {
     	el(){
     		return "main";

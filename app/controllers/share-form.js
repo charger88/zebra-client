@@ -1,4 +1,4 @@
-define(['helpers', 'controllers/controller'], function (helpers, Controller) {
+define(['helpers', 'controllers/controller', 'crypto/aes'], function (helpers, Controller, tmp) {
     return class extends Controller {
     	el(){
     		return "main";
@@ -18,14 +18,18 @@ define(['helpers', 'controllers/controller'], function (helpers, Controller) {
 				var data = {};
 				data["data"] = e.target.querySelector('textarea[name="data"]').value;
 				data["burn"] = e.target.querySelector('input[name="burn"]').checked;
-				if (e.target.querySelector('input[name="password"]')){
-					data["password"] = e.target.querySelector('input[name="password"]').value;
-				}
 				data["expiration"] = parseInt(e.target.querySelector('input[name="expiration"]').value);
 				data["mode"] = e.target.querySelector('input[name="mode"]:checked').value;
 				localStorage.setItem("share-form-burn", data["burn"] ? 1 : 0);
 			    localStorage.setItem("share-form-mode", data["mode"]);
 		    	localStorage.setItem("share-form-expiration", data["expiration"]);
+		    	var dataText = data["data"];
+		    	if (e.target.querySelector('input[name="password"]')){
+					data["password"] = e.target.querySelector('input[name="password"]').value;
+					if (data["password"].length > 0){
+						data["data"] = CryptoJS.AES.encrypt(dataText, data["password"]).toString();
+					}
+				}
 		    	data["expiration"] = data["expiration"] ? data["expiration"] : 3600;
 				var headers = [];
 				if (window.appConfig && window.appConfig['require-api-key']){
@@ -37,7 +41,7 @@ define(['helpers', 'controllers/controller'], function (helpers, Controller) {
 				helpers.ajax("POST", window.apiURL + "/stripe", data, headers, (response) => {
 					localStorage.setItem("OWNER:" + response['key'], response['owner-key']);
 					window.lastSharedStripe = response;
-					window.lastSharedStripe['data'] = data["data"];
+					window.lastSharedStripe['data'] = dataText;
 					window.location.hash = "#open/" + helpers.deFormatCode(response.key) + (data["password"] ? "/p" : "");
 				}, helpers.renderErrorCallbackInMain);
 			}, false);

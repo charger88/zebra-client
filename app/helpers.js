@@ -84,7 +84,6 @@ define([], function () {
 			xhttp.open(method, uri, true);
 		    xhttp.setRequestHeader('Content-type', 'application/json');
 		    headers.forEach(function (header) {
-		    	console.log(header);
 		    	if (header['value'] !== null){
 		        	xhttp.setRequestHeader(header['name'], header['value']);
 		    	}

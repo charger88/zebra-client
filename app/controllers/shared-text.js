@@ -12,9 +12,10 @@ define(['helpers', 'controllers/controller'], function (helpers, Controller) {
     			renderCallback(context);
     		} else {
 	    		var data = [];
+	    		var p;
 	    		data.push("key=" + encodeURIComponent(context.request.key));
 	    		if (context.request.password){
-	    			var p = prompt("Password required");
+	    			p = prompt("Password required");
 	    			data.push("password=" + encodeURIComponent(p));
 	    		}
 	    		var headers = [];
@@ -26,6 +27,10 @@ define(['helpers', 'controllers/controller'], function (helpers, Controller) {
 				}
 				helpers.ajax("GET", window.apiURL + "/stripe?" + data.join('&'), {}, headers, (response) => {
 					context.data = response;
+					if (p){
+						var bytes = CryptoJS.AES.decrypt(context.data.data, p);
+						context.data.data = bytes.toString(CryptoJS.enc.Utf8)
+					}
 					renderCallback(context);
 				}, helpers.renderErrorCallbackInMain);
 			}
@@ -35,6 +40,7 @@ define(['helpers', 'controllers/controller'], function (helpers, Controller) {
 				var elem = document.getElementById(e.target.getAttribute("for"));
 				elem.classList.add("copying");
 				var newElement = false;
+				var input;
 				if (elem.tagName.toUpperCase() == 'INPUT'){
 					input = elem;
 				} else {
