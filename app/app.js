@@ -23,9 +23,7 @@ requirejs(["router", "helpers"], function(router, helpers) {
 	}
 	const loadAPIUrl = () => {
 		var apiURL = document.location.search || "?";
-		if (apiURL !== "?"){
-			apiURL = apiURL.substr(1);
-		}
+		apiURL = (apiURL !== "?") ? apiURL.substr(1) : "";
 		if (apiURL.length === 0){
 			apiURL = sessionStorage.getItem('api-url');
 			if (apiURL === null){
