@@ -28,6 +28,7 @@ requirejs(["router", "helpers"], function(router, helpers) {
 			apiURL = sessionStorage.getItem('api-url');
 			if (apiURL === null){
 				apiURL = prompt("Please, input URL of Zebra API to work with");
+				apiURL = apiURL.replace(/\/+$/, "");
 				sessionStorage.setItem('api-url', apiURL);
 			}
 		}
