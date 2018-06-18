@@ -432,6 +432,10 @@ footer p:last-child {
     text-align: center;
 }
 
+#email-paragraph {
+	display: none;
+}
+
 @keyframes blinker {  
     0% { opacity: 1.0; }
     50% { opacity: 0.1; }

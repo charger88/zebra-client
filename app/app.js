@@ -19,6 +19,10 @@ requirejs(["router", "helpers"], function(router, helpers) {
 		document.querySelector("title").appendChild(document.createTextNode("🦓 " + config.name));
 		document.querySelector("#instance-name a").appendChild(document.createTextNode(config.name));
 		document.querySelector("header").style.background = config.color;
+		if (config.email) {
+			document.querySelector("#email-data").appendChild(document.createTextNode(config.email));
+			document.querySelector("#email-paragraph").style.display = "block";
+		}
 		return true;
 	}
 	const loadAPIUrl = () => {
