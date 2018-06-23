@@ -1,29 +1,29 @@
 define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers, Controller) {
-    return class extends Controller {
-    	el(){
-    		return "main";
-    	}
-    	template(){
-    		return "tpl-shared-text";
-    	}
-    	init(context, renderCallback){
+	return class extends Controller {
+		el(){
+			return "main";
+		}
+		template(){
+			return "tpl-shared-text";
+		}
+		init(context, renderCallback){
 			if (window.lastSharedStripe && window.lastSharedStripe.key === context.request.key){
 				context.data = window.lastSharedStripe;
-    			renderCallback(context);
-    		} else {
-	    		var data = [];
-	    		var p;
-	    		data.push("key=" + encodeURIComponent(context.request.key));
-	    		if (context.request.password){
-	    			p = prompt("Password required");
-	    			data.push("password=" + encodeURIComponent(CryptoJS.SHA256("ZEBRA-CLIENT:" + p).toString()));
-	    		}
-	    		var headers = [];
-	    		if (window.appConfig && window.appConfig['require-api-key'] && !window.appConfig['require-api-key-for-post-only']){
-	    			headers.push({
-	    				"name": "X-Api-Key",
-	    				"value": helpers.getXAPIKey()
-	    			});
+				renderCallback(context);
+			} else {
+				var data = [];
+				var p;
+				data.push("key=" + encodeURIComponent(context.request.key));
+				if (context.request.password){
+					p = prompt("Password required");
+					data.push("password=" + encodeURIComponent(CryptoJS.SHA256("ZEBRA-CLIENT:" + p).toString()));
+				}
+				var headers = [];
+				if (window.appConfig && window.appConfig['require-api-key'] && !window.appConfig['require-api-key-for-post-only']){
+					headers.push({
+						"name": "X-Api-Key",
+						"value": helpers.getXAPIKey()
+					});
 				}
 				helpers.ajax("GET", window.apiURL + "/stripe?" + data.join('&'), {}, headers, (response) => {
 					context.data = response;
@@ -34,9 +34,9 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 					renderCallback(context);
 				}, helpers.renderErrorCallbackInMain);
 			}
-    	}
-	    render(context){
-	    	const copyValue = (e) => {
+		}
+		render(context){
+			const copyValue = (e) => {
 				var elem = document.getElementById(e.target.getAttribute("for"));
 				elem.classList.add("copying");
 				var newElement = false;
@@ -58,13 +58,13 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 					elem.classList.remove("copying");
 				}, 500);
 			};
-	    	var ownerKey = localStorage.getItem("OWNER:" + context.data.key);
+			var ownerKey = localStorage.getItem("OWNER:" + context.data.key);
   			context.$el.querySelector("#shared-text-data").appendChild(document.createTextNode(context.data.data));
   			context.$el.querySelector('label[for="shared-text-data"]').addEventListener("click", copyValue, false);
 			context.$el.querySelector("#shared-text-key").value = helpers.formatCode(context.data.key);
   			context.$el.querySelector('label[for="shared-text-key"]').addEventListener("click", copyValue, false);
   			context.$el.querySelector("#shared-text-url").value = window.appConfig.url + "#open/" + context.data.key + (context.data.password ? "/p" : "");
-	    	context.$el.querySelector('label[for="shared-text-url"]').addEventListener("click", copyValue, false);
+			context.$el.querySelector('label[for="shared-text-url"]').addEventListener("click", copyValue, false);
   			context.$el.querySelector("#shared-text-countdown").setAttribute("data-countdown", context.data.expiration);
 			if (ownerKey){
 				var $st = context.$el.querySelector('#shared-text-delete');
@@ -72,9 +72,9 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 					e.preventDefault();
 					var countdown = context.$el.querySelector("#shared-text-countdown");
 					var data = [];
-		    		data.push("key=" + encodeURIComponent(context.request.key));
-		    		data.push("owner-key=" + encodeURIComponent(ownerKey));
-		    		var headers = [];
+					data.push("key=" + encodeURIComponent(context.request.key));
+					data.push("owner-key=" + encodeURIComponent(ownerKey));
+					var headers = [];
 					if (window.appConfig && window.appConfig['require-api-key']){
 						headers.push({
 							"name": "X-Api-Key",
@@ -84,7 +84,7 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 					helpers.ajax("DELETE", window.apiURL + "/stripe?" + data.join('&'), {}, headers, (response) => {
 						countdown.setAttribute("data-countdown", 0);
 						while ($st.firstChild) {
-						    $st.removeChild($st.firstChild);
+							$st.removeChild($st.firstChild);
 						}
 						$st.remove();
 					});
@@ -100,6 +100,6 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 				countdownObj.classList.remove("warning");
 				countdownObj.classList.add("gone");
 			}
-	    }
-    }
+		}
+	}
 });
