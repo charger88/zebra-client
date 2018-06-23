@@ -25,7 +25,7 @@ h5 span {
 header {
 	background: #f3f3f3;
 	position: relative;
-	box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.5);
+	border-bottom: 0.2rem solid #ffffff;
 }
 
 header #logo {
@@ -37,18 +37,18 @@ header #logo {
 }
 
 header #instance-name {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 0.7rem 1rem;
-    font-weight: bold;
-    font-size: 1.5rem;
-    line-height: 1.5rem;
-    text-transform: uppercase;
-    min-width: 320px;
-    margin-left: 320px;
-    box-sizing: border-box;
-    text-align: right;
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 0.7rem 1rem;
+	font-weight: bold;
+	font-size: 1.5rem;
+	line-height: 1.5rem;
+	text-transform: uppercase;
+	min-width: 320px;
+	margin-left: 320px;
+	box-sizing: border-box;
+	text-align: right;
 }
 
 header #instance-name a {
@@ -67,7 +67,7 @@ nav#menu {
 
 nav#menu ul {
 	margin: 0;
-    padding: 0.75rem 1.4rem;
+	padding: 0.75rem 1.4rem;
 	font-size: 0.8rem;
 	font-weight: bold;
 	text-transform: uppercase;
@@ -76,11 +76,11 @@ nav#menu ul {
 }
 
 nav#menu ul li a {
-    display: block;
-    padding: 0.75rem 1rem 0.65rem 1rem;
-    line-height: 0.8rem;
-    color: #ffffff;
-    border-radius: 10rem;
+	display: block;
+	padding: 0.75rem 1rem 0.65rem 1rem;
+	line-height: 0.8rem;
+	color: #ffffff;
+	border-radius: 10rem;
 }
 
 nav#menu ul li a.selected {
@@ -91,7 +91,7 @@ nav#menu ul li a.selected {
 
 main {
 	padding: 1.8rem 2.4rem;
-    min-height: 16rem;
+	min-height: 16rem;
 	background: #f3f3f3;
 }
 
@@ -169,7 +169,7 @@ main form .group > * label {
 	bottom: 0.15rem;
 	left: 1.6rem;
 	color: #cccccc;
-    white-space: nowrap;
+	white-space: nowrap;
 	transition: all 0.25s;
 	transition-timing-function: linear;
 }
@@ -238,26 +238,26 @@ main form button {
 	padding: 0.8rem 2.4rem;
 	border-radius: 0.6rem;
 	outline: none;
-    text-transform: uppercase;
-    margin-bottom: 0.3rem;
-    box-shadow: 0 0.3rem 0 #425766;
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+	text-transform: uppercase;
+	margin-bottom: 0.3rem;
+	box-shadow: 0 0.3rem 0 #425766;
+	text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
 	transition: all 0.25s;
 	transition-timing-function: linear;
 }
 
 main form button:active {
 	margin-top: 0.3rem;
-    margin-bottom: 0;
+	margin-bottom: 0;
 	background: #425766;
-    box-shadow: none;
+	box-shadow: none;
 }
 
 main.loading {
-    animation-name: blinker;
-    animation-duration: 2s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
+	animation-name: blinker;
+	animation-duration: 2s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
 }
 
 main.error {
@@ -299,12 +299,12 @@ footer p:last-child {
 	width: 100%;
 	height: 100%;
 	box-sizing: border-box;
-    padding: 1.2rem 0.3rem;
-    display: block;
-    cursor: pointer;
-    overflow: hidden;
-    font-size: 0.8rem;
-    font-weight: bold;
+	padding: 1.2rem 0.3rem;
+	display: block;
+	cursor: pointer;
+	overflow: hidden;
+	font-size: 0.8rem;
+	font-weight: bold;
 }
 
 #share-form-mode > li label > * {
@@ -334,9 +334,9 @@ footer p:last-child {
 }
 
 #shared-text-data {
-    border-bottom: 1px dashed #cccccc;
-    padding-bottom: 0.2rem;
-    margin-bottom: 0.2rem;
+	border-bottom: 1px dashed #cccccc;
+	padding-bottom: 0.2rem;
+	margin-bottom: 0.2rem;
 	transition: all 0.5s;
 }
 
@@ -395,12 +395,12 @@ footer p:last-child {
 #shared-text-countdown {
 	font-family: monospace;
 	font-size: 2rem;
-    background: #cccccc;
-    text-align: center;
-    color: #ffffff;
-    line-height: 2rem;
-    height: 2rem;
-    padding: 0.3rem;
+	background: #cccccc;
+	text-align: center;
+	color: #ffffff;
+	line-height: 2rem;
+	height: 2rem;
+	padding: 0.3rem;
 }
 
 #shared-text-countdown.warning {
@@ -409,9 +409,9 @@ footer p:last-child {
 
 #shared-text-countdown.warning > span {
 	animation-name: blinker;
-    animation-duration: 2s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
+	animation-duration: 2s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
 }
 
 #shared-text-countdown.gone {
@@ -424,11 +424,11 @@ footer p:last-child {
 
 #shared-text-delete {
 	display: none;
-    margin-top: -0.5rem;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    font-weight: bold;
-    text-align: center;
+	margin-top: -0.5rem;
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	font-weight: bold;
+	text-align: center;
 }
 
 #email-paragraph {
@@ -436,9 +436,9 @@ footer p:last-child {
 }
 
 @keyframes blinker {  
-    0% { opacity: 1.0; }
-    50% { opacity: 0.1; }
-    100% { opacity: 1.0; }
+	0% { opacity: 1.0; }
+	50% { opacity: 0.1; }
+	100% { opacity: 1.0; }
 }
 
 @media all and (max-width: 960px) {
@@ -449,16 +449,18 @@ footer p:last-child {
 
 	header {
 		position: static;
-		box-shadow: none;
+		border-bottom: 0;
 	}
 
 	header #instance-name {
 		position: static;
 		margin-left: 0;
 		text-align: center;
-	    min-height: 3.1rem;
-        line-height: 1.5rem;
-	    border-top: 0.2rem solid #ffffff;
+		min-height: 3.1rem;
+		line-height: 1.5rem;
+		border-top: 0.2rem solid #ffffff;
+		background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 100%);
+		text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
 	}
 
 	nav#menu {
@@ -476,8 +478,8 @@ footer p:last-child {
 
 	nav#menu ul li a {
 		text-align: center;
-    	padding: 1.25rem 1rem 1.15rem 1rem;
-    	border-radius: 0;
+		padding: 1.25rem 1rem 1.15rem 1rem;
+		border-radius: 0;
 	}
 
 	main form .group > * textarea:focus + label,
@@ -488,7 +490,7 @@ footer p:last-child {
 	}
 
 	main {
-        min-height: 10.4rem;
+		min-height: 10.4rem;
 	}
 
 	main form button {
