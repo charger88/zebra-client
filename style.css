@@ -1,12 +1,13 @@
 html {
 	margin: 0;
 	padding: 0;
+	height: 100%;
 }
 
 body {
 	margin: 0;
 	padding: 0;
-	background: #f9f9f9;
+	background: linear-gradient(to bottom, #ffffff 0, #ffffff 71px, #f9f9f9 400px, #f9f9f9 100%);
 	font-family: sans-serif;
 }
 
@@ -25,7 +26,7 @@ h5 span {
 header {
 	background: #f3f3f3;
 	position: relative;
-	border-bottom: 0.2rem solid #ffffff;
+	margin-bottom: 2.4rem;
 }
 
 header #logo {
@@ -62,7 +63,6 @@ div#body-wrapper {
 
 nav#menu {
 	background: #425766;
-	margin-top: 2rem;
 }
 
 nav#menu ul {
@@ -449,7 +449,7 @@ footer p:last-child {
 
 	header {
 		position: static;
-		border-bottom: 0;
+		margin-bottom: 0;
 	}
 
 	header #instance-name {
@@ -461,10 +461,6 @@ footer p:last-child {
 		border-top: 0.2rem solid #ffffff;
 		background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 100%);
 		text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
-	}
-
-	nav#menu {
-		margin-top: 0;
 	}
 
 	nav#menu ul {
