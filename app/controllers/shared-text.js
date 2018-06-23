@@ -1,4 +1,4 @@
-define(['helpers', 'controllers/controller'], function (helpers, Controller) {
+define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers, Controller) {
     return class extends Controller {
     	el(){
     		return "main";
@@ -16,7 +16,7 @@ define(['helpers', 'controllers/controller'], function (helpers, Controller) {
 	    		data.push("key=" + encodeURIComponent(context.request.key));
 	    		if (context.request.password){
 	    			p = prompt("Password required");
-	    			data.push("password=" + encodeURIComponent(p));
+	    			data.push("password=" + encodeURIComponent(CryptoJS.SHA256("ZEBRA-CLIENT:" + p).toString()));
 	    		}
 	    		var headers = [];
 	    		if (window.appConfig && window.appConfig['require-api-key'] && !window.appConfig['require-api-key-for-post-only']){

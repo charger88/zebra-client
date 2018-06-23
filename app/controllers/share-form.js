@@ -1,4 +1,4 @@
-define(['helpers', 'controllers/controller', 'crypto/aes'], function (helpers, Controller, tmp) {
+define(['helpers', 'controllers/controller', 'crypto/aes', 'crypto/sha256'], function (helpers, Controller) {
     return class extends Controller {
     	el(){
     		return "main";
@@ -28,6 +28,7 @@ define(['helpers', 'controllers/controller', 'crypto/aes'], function (helpers, C
 					data["password"] = e.target.querySelector('input[name="password"]').value;
 					if (data["password"].length > 0){
 						data["data"] = CryptoJS.AES.encrypt(dataText, data["password"]).toString();
+						data["password"] = CryptoJS.SHA256("ZEBRA-CLIENT:" + data["password"]).toString();
 					}
 				}
 		    	data["expiration"] = data["expiration"] ? data["expiration"] : 3600;
