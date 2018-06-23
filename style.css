@@ -456,9 +456,8 @@ footer p:last-child {
 		position: static;
 		margin-left: 0;
 		text-align: center;
-		min-height: 3.1rem;
+		min-height: 2.9rem;
 		line-height: 1.5rem;
-		border-top: 0.2rem solid #ffffff;
 		background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 100%);
 		text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
 	}
