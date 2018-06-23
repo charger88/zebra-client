@@ -11,6 +11,14 @@ body {
 	font-family: sans-serif;
 }
 
+body > * {
+	transition: opacity 0.25s ease;
+}
+
+body.not-initialized > * {
+	opacity: 0;
+}
+
 a {
 	color: #338ccc;
 }

@@ -41,6 +41,7 @@ requirejs(["router", "helpers"], function(router, helpers) {
 	window.apiURL = (window.location.protocol !== "https:") ? loadAPIUrl() : window.location.origin;
 	helpers.ajax("GET", window.apiURL + "/config", {}, [], (response) => {
 		if (initApp(response)){
+			document.querySelector("body").classList.remove("not-initialized");
 			window.addEventListener("hashchange", router, false);
 			router();
 		} else {
