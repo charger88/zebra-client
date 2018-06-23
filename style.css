@@ -159,7 +159,6 @@ main form input[type="number"] {
 
 main form .group > * {
 	position: relative;
-	overflow: hidden;
 }
 
 main form .group > * label {
@@ -524,6 +523,10 @@ footer p:last-child {
 
 	#share-form-mode > li {
 		width: auto;
+	}
+
+	main form {
+		overflow: hidden;
 	}
 
 	nav#menu ul {
