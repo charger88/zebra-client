@@ -38,7 +38,7 @@ define(['helpers', 'controllers/controller', 'crypto/aes', 'crypto/sha256'], fun
 				var headers = [];
 				if (window.appConfig && window.appConfig['require-api-key']){
 					headers.push({
-						"name": "X-API-Key",
+						"name": "X-Api-Key",
 						"value": helpers.getXAPIKey()
 					});
 				}
