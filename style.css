@@ -351,7 +351,7 @@ footer p:last-child {
 }
 
 #share-form-expiration-mode label span {
-	color: #425766;
+	color: #338ccc;
 	display: block;
 	padding: 0.26rem 0.5rem 0.2rem 0.5rem;
 	border-radius: 10rem;
@@ -359,7 +359,7 @@ footer p:last-child {
 }
 
 #share-form-expiration-mode label input:checked + span {
-	background: #425766;
+	background: #338ccc;
 	color: #ffffff;
 }
 
