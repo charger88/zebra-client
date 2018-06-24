@@ -69,8 +69,18 @@ define(['helpers', 'controllers/controller', 'crypto/aes', 'crypto/sha256'], fun
 				context.$el.querySelector('#share-form-expiration').value = localStorage.getItem("share-form-expiration");
 			}
 			if (localStorage.getItem("share-form-expiration-mode")){
-				context.$el.querySelector('#share-form-expiration-mode input[value="' + localStorage.getItem("share-form-expiration-mode") + '"]').checked = true;
+				let period = parseInt(localStorage.getItem("share-form-expiration-mode") || 86400);
+				context.$el.querySelector('#share-form-expiration-mode input[value="' + period + '"]').checked = true;
+				context.$el.querySelector("#share-form-expiration").setAttribute("min", Math.ceil(10.0 / period));
+				context.$el.querySelector("#share-form-expiration").setAttribute("max", Math.floor(window.appConfig["max-expiration-time"] / period));
 			}
+			context.$el.querySelectorAll('#share-form-expiration-mode input[name="expiration-mode"]').forEach(($element) => {
+				$element.addEventListener("click", (e) => {
+					let period = parseInt(e.target.value);
+					context.$el.querySelector("#share-form-expiration").setAttribute("min", Math.ceil(10.0 / period));
+					context.$el.querySelector("#share-form-expiration").setAttribute("max", Math.floor(window.appConfig["max-expiration-time"] / period));
+				}, false);
+			});
 			const passwordPolicy = window.appConfig['password-policy'];
 			if (passwordPolicy === "disabled"){
 				var obj = context.$el.querySelector("#share-form-password-wrapper");
