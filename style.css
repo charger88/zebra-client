@@ -169,7 +169,7 @@ main form .group > * {
 	position: relative;
 }
 
-main form .group > * label {
+main form .group div > label {
 	font-size: 0.7rem;
 	text-transform: uppercase;
 	z-index: 3;
@@ -332,6 +332,35 @@ footer p:last-child {
 	background: #ffffff;
 	box-shadow: 0 0 0 100rem #ffffff;
 	color: #000000;
+}
+
+#share-form-expiration-mode {
+	display: flex;
+	position: absolute;
+	z-index: 3;
+	right: 1.2rem;
+	top: 50%;
+	margin-top: -0.58rem;
+	font-size: 0.7rem;
+	line-height: 0.7rem;
+	text-transform: uppercase;
+}
+
+#share-form-expiration-mode label input {
+	display: none;
+}
+
+#share-form-expiration-mode label span {
+	color: #425766;
+	display: block;
+	padding: 0.26rem 0.5rem 0.2rem 0.5rem;
+	border-radius: 10rem;
+	cursor: pointer;
+}
+
+#share-form-expiration-mode label input:checked + span {
+	background: #425766;
+	color: #ffffff;
 }
 
 #shared-text {

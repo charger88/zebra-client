@@ -53,9 +53,18 @@
 					<textarea name="data" id="share-form-data" required="required" value=""></textarea>
 					<label for="share-form-data">Data for sharing</label>
 				</div>
-				<div>
-					<input type="number" name="expiration" id="share-form-expiration" min="10" max="86400" autocomplete="off" value="" />
-					<label for="share-form-expiration">Expiration (in seconds, 1 hour default)</label>
+				<div id="expiration-form-wrapper">
+					<div>
+						<input type="number" name="expiration" id="share-form-expiration" min="10" max="86400" autocomplete="off" value="30" />
+						<label for="share-form-expiration">Expiration</label>
+					</div>
+					<div style="width: 50%">
+						<ul id="share-form-expiration-mode">
+							<li><label><input type="radio" name="expiration-mode" value="1" /><span>Seconds</span></label></li>
+							<li><label><input type="radio" name="expiration-mode" value="60" checked="checked" /><span>Minutes</span></label></li>
+							<li><label><input type="radio" name="expiration-mode" value="3600" /><span>Hours</span></label></li>
+						</ul>
+					</div>
 				</div>
 				<div id="share-form-password-wrapper">
 					<input type="password" name="password" id="share-form-password" autocomplete="off" value="" />

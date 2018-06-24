@@ -18,11 +18,14 @@ define(['helpers', 'controllers/controller', 'crypto/aes', 'crypto/sha256'], fun
 				var data = {};
 				data["data"] = e.target.querySelector('textarea[name="data"]').value;
 				data["burn"] = e.target.querySelector('input[name="burn"]').checked;
-				data["expiration"] = parseInt(e.target.querySelector('input[name="expiration"]').value);
+				let expiration = parseInt(e.target.querySelector('input[name="expiration"]').value);
+				let expirationMode = parseInt(e.target.querySelector('input[name="expiration-mode"]:checked').value);
 				data["mode"] = e.target.querySelector('input[name="mode"]:checked').value;
 				localStorage.setItem("share-form-burn", data["burn"] ? 1 : 0);
 				localStorage.setItem("share-form-mode", data["mode"]);
-				localStorage.setItem("share-form-expiration", data["expiration"]);
+				localStorage.setItem("share-form-expiration", expiration);
+				localStorage.setItem("share-form-expiration-mode", expirationMode);
+				data["expiration"] = expiration * expirationMode;
 				var dataText = data["data"];
 				if (e.target.querySelector('input[name="password"]')){
 					data["password"] = e.target.querySelector('input[name="password"]').value;
@@ -35,7 +38,7 @@ define(['helpers', 'controllers/controller', 'crypto/aes', 'crypto/sha256'], fun
 				var headers = [];
 				if (window.appConfig && window.appConfig['require-api-key']){
 					headers.push({
-						"name": "X-Api-Key",
+						"name": "X-API-Key",
 						"value": helpers.getXAPIKey()
 					});
 				}
@@ -64,6 +67,9 @@ define(['helpers', 'controllers/controller', 'crypto/aes', 'crypto/sha256'], fun
 			}
 			if (localStorage.getItem("share-form-expiration")){
 				context.$el.querySelector('#share-form-expiration').value = localStorage.getItem("share-form-expiration");
+			}
+			if (localStorage.getItem("share-form-expiration-mode")){
+				context.$el.querySelector('#share-form-expiration-mode input[value="' + localStorage.getItem("share-form-expiration-mode") + '"]').checked = true;
 			}
 			const passwordPolicy = window.appConfig['password-policy'];
 			if (passwordPolicy === "disabled"){
