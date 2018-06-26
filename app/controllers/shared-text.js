@@ -12,10 +12,10 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 				renderCallback(context);
 			} else {
 				var data = [];
-				var p;
+				var p = null;
 				data.push("key=" + encodeURIComponent(context.request.key));
 				if (context.request.password){
-					p = prompt("Password required");
+					p = window.ofsKey == context.request.key ? window.ofsPassword : prompt("Password required");
 					data.push("password=" + encodeURIComponent(CryptoJS.SHA256("ZEBRA-CLIENT:" + p).toString()));
 				}
 				var headers = [];
@@ -27,8 +27,11 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 				}
 				helpers.ajax("GET", window.apiURL + "/stripe?" + data.join('&'), {}, headers, (response) => {
 					context.data = response;
-					if (p){
-						var bytes = CryptoJS.AES.decrypt(context.data.data, p);
+					if (context.data["encrypted-with-client-side-password"]){
+						p = window.ofsKey == response.key ? window.ofsEncryptionPassword : prompt("Decryption password required");
+					}
+					if ((p !== null) && (p.length > 0)){
+						var bytes = CryptoJS.AES.decrypt(context.data.data, String(p));
 						context.data.data = bytes.toString(CryptoJS.enc.Utf8)
 					}
 					renderCallback(context);

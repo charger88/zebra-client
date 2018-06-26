@@ -5,6 +5,7 @@ html {
 }
 
 body {
+    width: 100%;
 	margin: 0;
 	padding: 0;
 	background: linear-gradient(to bottom, #ffffff 0, #ffffff 71px, #f9f9f9 400px, #f9f9f9 100%);
@@ -558,6 +559,14 @@ footer p:last-child {
 
 	#share-form-mode > li {
 		width: auto;
+	}
+
+	#share-form-expiration-mode {
+		right: 0.3rem;
+	}
+
+	#share-form-expiration-mode label span {
+		padding: 0.26rem;
 	}
 
 	main form {

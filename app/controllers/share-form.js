@@ -25,12 +25,18 @@ define(['helpers', 'controllers/controller', 'crypto/aes', 'crypto/sha256'], fun
 				localStorage.setItem("share-form-mode", data["mode"]);
 				localStorage.setItem("share-form-expiration", expiration);
 				localStorage.setItem("share-form-expiration-mode", expirationMode);
+				let encryptionPassword = e.target.querySelector('input[name="encryption-password"]').value;
 				data["expiration"] = expiration * expirationMode;
+				data["encrypted-with-client-side-password"] = encryptionPassword.length > 0;
 				var dataText = data["data"];
 				if (e.target.querySelector('input[name="password"]')){
 					data["password"] = e.target.querySelector('input[name="password"]').value;
+					if (data["encrypted-with-client-side-password"]){
+						data["data"] = CryptoJS.AES.encrypt(dataText, String(encryptionPassword)).toString();
+					} else if (data["password"].length > 0){
+						data["data"] = CryptoJS.AES.encrypt(dataText, String(data["password"])).toString();
+					}
 					if (data["password"].length > 0){
-						data["data"] = CryptoJS.AES.encrypt(dataText, data["password"]).toString();
 						data["password"] = CryptoJS.SHA256("ZEBRA-CLIENT:" + data["password"]).toString();
 					}
 				}
@@ -89,7 +95,19 @@ define(['helpers', 'controllers/controller', 'crypto/aes', 'crypto/sha256'], fun
 				}
 				obj.remove();
 			} else if (passwordPolicy === "required"){
+				context.$el.querySelector("#share-form-password").setAttribute("required", "required");
 				context.$el.querySelector("#share-form-password-optional").style.display = "none";
+			}
+			const encryptionPasswordPolicy = window.appConfig['encryption-password-policy'];
+			if (encryptionPasswordPolicy === "disabled"){
+				var obj = context.$el.querySelector("#share-form-encryption-password-wrapper");
+				while (obj.firstChild) {
+					obj.removeChild(obj.firstChild);
+				}
+				obj.remove();
+			} else if (encryptionPasswordPolicy === "required"){
+				context.$el.querySelector("#share-form-encryption-password").setAttribute("required", "required");
+				context.$el.querySelector("#share-form-encryption-password-optional").style.display = "none";
 			}
 		}
 	}
