@@ -98,8 +98,10 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 								}
 								$st.remove();
 								alert("Text was successully deleted");
+							} else if (status == 403) {
+								alert("Error! Text was not deleted. Please, try again.");
 							} else {
-								alert("Text probably was deleted, but something went wrong. Try to refresh the page to make sure that text was deleted.");
+								alert("Error! Text probably was deleted, but something went wrong. Try to refresh the page to make sure that text was deleted.");
 							}
 						});
 					});
