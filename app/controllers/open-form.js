@@ -10,15 +10,22 @@ define(["helpers", "controllers/controller"], function (helpers, Controller) {
 			context.$el.querySelector("#open-form").addEventListener("submit", (e) => {
 				e.preventDefault();
 				let key = helpers.deFormatCode(e.target.querySelector('input[name="key"]').value);
-				let password = e.target.querySelector('input[name="password"]').value;
-				if (password.length > 0) { 
-					window.ofsKey = key;
-					window.ofsPassword = password;
+				let password = ""
+				let passwordInput = e.target.querySelector('input[name="password"]');
+				if (passwordInput){
+					password = passwordInput.value;
+					if (password.length > 0) {
+						window.ofsKey = key;
+						window.ofsPassword = password;
+					}
 				}
-				let encryptionPassword = e.target.querySelector('input[name="encryption-password"]').value;
-				if (encryptionPassword.length > 0) { 
-					window.ofsKey = key;
-					window.ofsEncryptionPassword = encryptionPassword;
+				let encryptionPasswordInput = e.target.querySelector('input[name="encryption-password"]');
+				if (encryptionPasswordInput){
+					let encryptionPassword = e.target.querySelector('input[name="encryption-password"]').value;
+					if (encryptionPassword.length > 0) {
+						window.ofsKey = key;
+						window.ofsEncryptionPassword = encryptionPassword;
+					}
 				}
 				window.location.hash = "#open/" + key + (password.length > 0 ? "/p" : "");
 			}, false);

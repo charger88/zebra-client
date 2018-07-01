@@ -25,12 +25,14 @@ define(['helpers', 'controllers/controller', 'crypto/aes', 'crypto/sha256'], fun
 				localStorage.setItem("share-form-mode", data["mode"]);
 				localStorage.setItem("share-form-expiration", expiration);
 				localStorage.setItem("share-form-expiration-mode", expirationMode);
-				let encryptionPassword = e.target.querySelector('input[name="encryption-password"]').value;
+				let encryptionPasswordInput = e.target.querySelector('input[name="encryption-password"]');
+				let encryptionPassword = encryptionPasswordInput ? encryptionPasswordInput.value : "";
 				data["expiration"] = expiration * expirationMode;
 				data["encrypted-with-client-side-password"] = encryptionPassword.length > 0;
 				var dataText = data["data"];
-				if (e.target.querySelector('input[name="password"]')){
-					data["password"] = e.target.querySelector('input[name="password"]').value;
+				let passwordInput = e.target.querySelector('input[name="password"]');
+				if (passwordInput){
+					data["password"] = passwordInput.value;
 					if (data["encrypted-with-client-side-password"]){
 						data["data"] = CryptoJS.AES.encrypt(dataText, String(encryptionPassword)).toString();
 					} else if (data["password"].length > 0){
