@@ -36,7 +36,12 @@ define(['helpers', 'controllers/controller', 'crypto/aes', 'crypto/sha256'], fun
 					data["password"] = CryptoJS.SHA256("ZEBRA-CLIENT:" + password).toString();
 				}
 				if (data["encrypted-with-client-side-password"]) {
-					data["data"] = CryptoJS.AES.encrypt(data["data"], encryptionPassword).toString();
+					let salt = Math.floor(Math.random() * Math.pow(256, 4)).toString(16);
+					if (salt.length > 8) {
+						salt = "0".repeat(8 - salt.length) + salt;
+					}
+					let hash = CryptoJS.SHA256(salt + data["data"]).toString(CryptoJS.enc.Base64);
+					data["data"] = salt + "|" + hash + "|" + CryptoJS.AES.encrypt(data["data"], encryptionPassword).toString();
 				} else if (password.length > 0) {
 					data["data"] = CryptoJS.AES.encrypt(data["data"], password).toString();
 				}

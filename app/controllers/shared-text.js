@@ -27,13 +27,32 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 				}
 				helpers.ajax("GET", window.apiURL + "/stripe?" + data.join('&'), {}, headers, (response) => {
 					context.data = response;
-					if (context.data["encrypted-with-client-side-password"]){
-						p = window.ofsKey == response.key ? window.ofsEncryptionPassword : prompt("Decryption password required");
-					}
-					if ((p !== null) && (p.length > 0)){
-						context.data.data = CryptoJS.AES.decrypt(context.data.data, String(p)).toString(CryptoJS.enc.Utf8)
-					}
-					renderCallback(context);
+					var validation = null;
+					var correct_decryption = false;
+					do {
+						let data = context.data.data;
+						if (context.data["encrypted-with-client-side-password"]){
+							p = window.ofsKey == response.key ? window.ofsEncryptionPassword : prompt("Decryption password required");
+							data = context.data.data.split("|");
+							validation = [data.shift(), data.shift()];
+							data = data.join("|");
+						}
+						if ((p !== null) && (p.length > 0)){
+							data = CryptoJS.AES.decrypt(data, String(p)).toString(CryptoJS.enc.Utf8)
+						}
+						if (validation){
+							let hash = CryptoJS.SHA256(validation[0] + data).toString(CryptoJS.enc.Base64);
+							if (validation[1] === hash) {
+								correct_decryption = true;
+								context.data.data = data;
+								renderCallback(context);
+							}
+						} else {
+							correct_decryption = true;
+							context.data.data = data;
+							renderCallback(context);
+						}
+					} while(!correct_decryption);
 				}, helpers.renderErrorCallbackInMain);
 			}
 		}
