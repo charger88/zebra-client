@@ -85,12 +85,23 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 						});
 					}
 					helpers.ajax("DELETE", window.apiURL + "/stripe?" + data.join('&'), {}, headers, (response) => {
-						countdown.setAttribute("data-countdown", 0);
-						while ($st.firstChild) {
-							$st.removeChild($st.firstChild);
-						}
-						$st.remove();
-						alert("Text was successully deleted");
+						var data = [];
+						data.push("key=" + encodeURIComponent(context.request.key));
+						data.push("check-key=" + encodeURIComponent(response["check-key"]));
+						helpers.ajax("GET", window.apiURL + "/stripe?" + data.join('&'), {}, headers, (response) => {
+							alert("Error! Text was not deleted. Please, try again.");
+						}, (response, status) => {
+							if (status == 404) {
+								countdown.setAttribute("data-countdown", 0);
+								while ($st.firstChild) {
+									$st.removeChild($st.firstChild);
+								}
+								$st.remove();
+								alert("Text was successully deleted");
+							} else {
+								alert("Text probably was deleted, but something went wrong. Try to refresh the page to make sure that text was deleted.");
+							}
+						});
 					});
 				}, false);
 				$st.style.display = "block";
