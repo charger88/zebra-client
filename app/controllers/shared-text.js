@@ -90,6 +90,7 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 							$st.removeChild($st.firstChild);
 						}
 						$st.remove();
+						alert("Text was successully deleted");
 					});
 				}, false);
 				$st.style.display = "block";
