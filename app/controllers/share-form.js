@@ -25,22 +25,20 @@ define(['helpers', 'controllers/controller', 'crypto/aes', 'crypto/sha256'], fun
 				localStorage.setItem("share-form-mode", data["mode"]);
 				localStorage.setItem("share-form-expiration", expiration);
 				localStorage.setItem("share-form-expiration-mode", expirationMode);
+				var dataText = data["data"];
 				let encryptionPasswordInput = e.target.querySelector('input[name="encryption-password"]');
-				let encryptionPassword = encryptionPasswordInput ? encryptionPasswordInput.value : "";
+				let encryptionPassword = encryptionPasswordInput ? String(encryptionPasswordInput.value) : "";
 				data["expiration"] = expiration * expirationMode;
 				data["encrypted-with-client-side-password"] = encryptionPassword.length > 0;
-				var dataText = data["data"];
 				let passwordInput = e.target.querySelector('input[name="password"]');
-				if (passwordInput){
-					data["password"] = passwordInput.value;
-					if (data["encrypted-with-client-side-password"]){
-						data["data"] = CryptoJS.AES.encrypt(dataText, String(encryptionPassword)).toString();
-					} else if (data["password"].length > 0){
-						data["data"] = CryptoJS.AES.encrypt(dataText, String(data["password"])).toString();
-					}
-					if (data["password"].length > 0){
-						data["password"] = CryptoJS.SHA256("ZEBRA-CLIENT:" + data["password"]).toString();
-					}
+				let password = passwordInput ? String(passwordInput.value) : "";
+				if (password.length > 0) {
+					data["password"] = CryptoJS.SHA256("ZEBRA-CLIENT:" + password).toString();
+				}
+				if (data["encrypted-with-client-side-password"]) {
+					data["data"] = CryptoJS.AES.encrypt(data["data"], encryptionPassword).toString();
+				} else if (password.length > 0) {
+					data["data"] = CryptoJS.AES.encrypt(data["data"], password).toString();
 				}
 				data["expiration"] = data["expiration"] ? data["expiration"] : 3600;
 				var headers = [];

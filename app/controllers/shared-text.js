@@ -31,8 +31,7 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 						p = window.ofsKey == response.key ? window.ofsEncryptionPassword : prompt("Decryption password required");
 					}
 					if ((p !== null) && (p.length > 0)){
-						var bytes = CryptoJS.AES.decrypt(context.data.data, String(p));
-						context.data.data = bytes.toString(CryptoJS.enc.Utf8)
+						context.data.data = CryptoJS.AES.decrypt(context.data.data, String(p)).toString(CryptoJS.enc.Utf8)
 					}
 					renderCallback(context);
 				}, helpers.renderErrorCallbackInMain);
