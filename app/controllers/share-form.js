@@ -21,10 +21,6 @@ define(['helpers', 'controllers/controller', 'crypto/aes', 'crypto/sha256'], fun
 				let expiration = parseInt(e.target.querySelector('input[name="expiration"]').value);
 				let expirationMode = parseInt(e.target.querySelector('input[name="expiration-mode"]:checked').value);
 				data["mode"] = e.target.querySelector('input[name="mode"]:checked').value;
-				localStorage.setItem("share-form-burn", data["burn"] ? 1 : 0);
-				localStorage.setItem("share-form-mode", data["mode"]);
-				localStorage.setItem("share-form-expiration", expiration);
-				localStorage.setItem("share-form-expiration-mode", expirationMode);
 				var dataText = data["data"];
 				let encryptionPasswordInput = e.target.querySelector('input[name="encryption-password"]');
 				let encryptionPassword = encryptionPasswordInput ? String(encryptionPasswordInput.value) : "";
@@ -45,6 +41,10 @@ define(['helpers', 'controllers/controller', 'crypto/aes', 'crypto/sha256'], fun
 				} else if (password.length > 0) {
 					data["data"] = CryptoJS.AES.encrypt(data["data"], password).toString();
 				}
+				if ((new Blob([data["data"]])).size > window.appConfig["max-text-length"]){
+					alert("Text is longer than allowed");
+					return;
+				}
 				data["expiration"] = data["expiration"] ? data["expiration"] : 3600;
 				var headers = [];
 				if (window.appConfig && window.appConfig['require-api-key']){
@@ -53,6 +53,10 @@ define(['helpers', 'controllers/controller', 'crypto/aes', 'crypto/sha256'], fun
 						"value": helpers.getXAPIKey()
 					});
 				}
+				localStorage.setItem("share-form-burn", data["burn"] ? 1 : 0);
+				localStorage.setItem("share-form-mode", data["mode"]);
+				localStorage.setItem("share-form-expiration", expiration);
+				localStorage.setItem("share-form-expiration-mode", expirationMode);
 				helpers.ajax("POST", window.apiURL + "/stripe", data, headers, (response) => {
 					localStorage.setItem("OWNER:" + response['key'], response['owner-key']);
 					window.lastSharedStripe = response;
