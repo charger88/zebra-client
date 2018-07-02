@@ -46,6 +46,8 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 								correct_decryption = true;
 								context.data.data = data;
 								renderCallback(context);
+							} else {
+								window.ofsKey = null;
 							}
 						} else {
 							correct_decryption = true;
@@ -53,6 +55,9 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 							renderCallback(context);
 						}
 					} while(!correct_decryption);
+					window.ofsKey = null;
+					window.ofsPassword = null;
+					window.ofsEncryptionPassword = null;
 				}, helpers.renderErrorCallbackInMain);
 			}
 		}
