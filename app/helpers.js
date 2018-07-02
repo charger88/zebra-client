@@ -39,7 +39,7 @@ define([], function () {
     	},
     	'countdownString': (countdown) => {
 			if (countdown){
-				const timestamp = Math.ceil(Date.now() / 1000);
+				const timestamp = Math.ceil(Date.now() / 1000) + window.timeDiff;
 				const diff = countdown > timestamp ? (countdown - timestamp) : 0;
 				var h = Math.floor(diff / 3600);
 				var m = Math.floor(diff % 3600 / 60);

@@ -40,6 +40,8 @@ requirejs(["router", "helpers"], function(router, helpers) {
 			return apiURL;
 		};
 		window.apiURL = (window.location.protocol !== "https:") ? loadAPIUrl() : window.location.origin;
+		window.timeDiff = 0;
+		var now = Date.now();
 		helpers.ajax("GET", window.apiURL + "/config", {}, [], (response) => {
 			if (initApp(response)){
 				document.querySelector("body").classList.remove("not-initialized");
@@ -52,6 +54,10 @@ requirejs(["router", "helpers"], function(router, helpers) {
 					alert("Version problem. Try to clear your browser's chache.");
 				}
 			}
+		});
+		helpers.ajax("GET", window.apiURL + "/ping", {}, [], (response) => {
+			now = (now + Date.now()) / 2;
+			window.timeDiff = response["timestamp"] - Math.round(now / 1000);
 		});
 		setInterval(() => {
 			document.querySelectorAll(".countdown").forEach((item) => {
