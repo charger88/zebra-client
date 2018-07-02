@@ -33,6 +33,10 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 						let data = context.data.data;
 						if (context.data["encrypted-with-client-side-password"]){
 							p = window.ofsKey == response.key ? window.ofsEncryptionPassword : prompt("Decryption password required");
+							if (p === null){
+								window.location.hash = "#open";
+								return;
+							}
 							data = context.data.data.split("|");
 							validation = [data.shift(), data.shift()];
 							data = data.join("|");
