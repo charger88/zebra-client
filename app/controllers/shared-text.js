@@ -9,6 +9,7 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 		init(context, renderCallback){
 			if (window.lastSharedStripe && window.lastSharedStripe.key === context.request.key){
 				context.data = window.lastSharedStripe;
+				window.lastSharedStripe = {};
 				renderCallback(context);
 			} else {
 				var data = [];
