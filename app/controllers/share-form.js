@@ -15,13 +15,13 @@ define(['helpers', 'controllers/controller', 'crypto/aes', 'crypto/sha256'], fun
 			}
 			context.$el.querySelector('#share-form').addEventListener("submit", (e) => {
 				e.preventDefault();
-				var data = {};
+				let data = {};
 				data["data"] = e.target.querySelector('textarea[name="data"]').value;
 				data["burn"] = e.target.querySelector('input[name="burn"]').checked;
 				let expiration = parseInt(e.target.querySelector('input[name="expiration"]').value);
 				let expirationMode = parseInt(e.target.querySelector('input[name="expiration-mode"]:checked').value);
 				data["mode"] = e.target.querySelector('input[name="mode"]:checked').value;
-				var dataText = data["data"];
+				let dataText = data["data"];
 				let encryptionPasswordInput = e.target.querySelector('input[name="encryption-password"]');
 				let encryptionPassword = encryptionPasswordInput ? String(encryptionPasswordInput.value) : "";
 				data["expiration"] = expiration * expirationMode;
@@ -29,34 +29,34 @@ define(['helpers', 'controllers/controller', 'crypto/aes', 'crypto/sha256'], fun
 				let passwordInput = e.target.querySelector('input[name="password"]');
 				let password = passwordInput ? String(passwordInput.value) : "";
 				if (password.length > 0) {
-					data["password"] = CryptoJS.SHA256("ZEBRA-CLIENT:" + password).toString();
+					data["password"] = window.CryptoJS.SHA256("ZEBRA-CLIENT:" + password).toString();
 				}
 				if (data["encrypted-with-client-side-password"]) {
 					let salt = Math.floor(Math.random() * Math.pow(256, 4)).toString(16);
 					if (salt.length > 8) {
 						salt = "0".repeat(8 - salt.length) + salt;
 					}
-					let hash = CryptoJS.SHA256(salt + data["data"]).toString(CryptoJS.enc.Base64);
-					data["data"] = salt + "|" + hash + "|" + CryptoJS.AES.encrypt(data["data"], encryptionPassword).toString();
+					let hash = window.CryptoJS.SHA256(salt + data["data"]).toString(window.CryptoJS.enc.Base64);
+					data["data"] = salt + "|" + hash + "|" + window.CryptoJS.AES.encrypt(data["data"], encryptionPassword).toString();
 				} else if (password.length > 0) {
-					data["data"] = CryptoJS.AES.encrypt(data["data"], password).toString();
+					data["data"] = window.CryptoJS.AES.encrypt(data["data"], password).toString();
 				}
 				if ((new Blob([data["data"]])).size > window.appConfig["max-text-length"]){
 					alert("Text is longer than allowed");
 					return;
 				}
 				data["expiration"] = data["expiration"] ? data["expiration"] : 3600;
-				var headers = [];
+				let headers = [];
 				if (window.appConfig && window.appConfig['require-api-key']){
 					headers.push({
 						"name": "X-Api-Key",
 						"value": helpers.getXAPIKey()
 					});
 				}
-				localStorage.setItem("share-form-burn", data["burn"] ? 1 : 0);
+				localStorage.setItem("share-form-burn", data["burn"] ? "1" : "0");
 				localStorage.setItem("share-form-mode", data["mode"]);
-				localStorage.setItem("share-form-expiration", expiration);
-				localStorage.setItem("share-form-expiration-mode", expirationMode);
+				localStorage.setItem("share-form-expiration", expiration.toString());
+				localStorage.setItem("share-form-expiration-mode", expirationMode.toString());
 				helpers.ajax("POST", window.apiURL + "/stripe", data, headers, (response) => {
 					localStorage.setItem("OWNER:" + response['key'], response['owner-key']);
 					window.lastSharedStripe = response;
@@ -86,19 +86,20 @@ define(['helpers', 'controllers/controller', 'crypto/aes', 'crypto/sha256'], fun
 			if (localStorage.getItem("share-form-expiration-mode")){
 				let period = parseInt(localStorage.getItem("share-form-expiration-mode") || 86400);
 				context.$el.querySelector('#share-form-expiration-mode input[value="' + period + '"]').checked = true;
-				context.$el.querySelector("#share-form-expiration").setAttribute("min", Math.ceil(10.0 / period));
-				context.$el.querySelector("#share-form-expiration").setAttribute("max", Math.floor(window.appConfig["max-expiration-time"] / period));
+				context.$el.querySelector("#share-form-expiration").setAttribute("min", Math.ceil(10.0 / period).toString());
+				context.$el.querySelector("#share-form-expiration").setAttribute("max", Math.floor(window.appConfig["max-expiration-time"] / period).toString());
 			}
 			context.$el.querySelectorAll('#share-form-expiration-mode input[name="expiration-mode"]').forEach(($element) => {
 				$element.addEventListener("click", (e) => {
 					let period = parseInt(e.target.value);
-					context.$el.querySelector("#share-form-expiration").setAttribute("min", Math.ceil(10.0 / period));
-					context.$el.querySelector("#share-form-expiration").setAttribute("max", Math.floor(window.appConfig["max-expiration-time"] / period));
+					context.$el.querySelector("#share-form-expiration").setAttribute("min", Math.ceil(10.0 / period).toString());
+					context.$el.querySelector("#share-form-expiration").setAttribute("max", Math.floor(window.appConfig["max-expiration-time"] / period).toString());
 				}, false);
 			});
+			let obj;
 			const passwordPolicy = window.appConfig['password-policy'];
 			if (passwordPolicy === "disabled"){
-				var obj = context.$el.querySelector("#share-form-password-wrapper");
+                obj = context.$el.querySelector("#share-form-password-wrapper");
 				while (obj.firstChild) {
 					obj.removeChild(obj.firstChild);
 				}
@@ -109,7 +110,7 @@ define(['helpers', 'controllers/controller', 'crypto/aes', 'crypto/sha256'], fun
 			}
 			const encryptionPasswordPolicy = window.appConfig['encryption-password-policy'];
 			if (encryptionPasswordPolicy === "disabled"){
-				var obj = context.$el.querySelector("#share-form-encryption-password-wrapper");
+                obj = context.$el.querySelector("#share-form-encryption-password-wrapper");
 				while (obj.firstChild) {
 					obj.removeChild(obj.firstChild);
 				}

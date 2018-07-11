@@ -12,14 +12,14 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 				window.lastSharedStripe = {};
 				renderCallback(context);
 			} else {
-				var data = [];
-				var p = null;
+				let data = [];
+				let p = null;
 				data.push("key=" + encodeURIComponent(context.request.key));
 				if (context.request.password){
 					p = window.ofsKey == context.request.key ? window.ofsPassword : prompt("Password required");
-					data.push("password=" + encodeURIComponent(CryptoJS.SHA256("ZEBRA-CLIENT:" + p).toString()));
+					data.push("password=" + encodeURIComponent(window.CryptoJS.SHA256("ZEBRA-CLIENT:" + p).toString()));
 				}
-				var headers = [];
+				let headers = [];
 				if (window.appConfig && window.appConfig['require-api-key'] && !window.appConfig['require-api-key-for-post-only']){
 					headers.push({
 						"name": "X-Api-Key",
@@ -28,8 +28,8 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 				}
 				helpers.ajax("GET", window.apiURL + "/stripe?" + data.join('&'), {}, headers, (response) => {
 					context.data = response;
-					var validation = null;
-					var correct_decryption = false;
+					let validation = null;
+					let correct_decryption = false;
 					do {
 						let data = context.data.data;
 						if (context.data["encrypted-with-client-side-password"]){
@@ -43,10 +43,10 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 							data = data.join("|");
 						}
 						if ((p !== null) && (p.length > 0)){
-							data = CryptoJS.AES.decrypt(data, String(p)).toString(CryptoJS.enc.Utf8)
+							data = window.CryptoJS.AES.decrypt(data, String(p)).toString(window.CryptoJS.enc.Utf8)
 						}
 						if (validation){
-							let hash = CryptoJS.SHA256(validation[0] + data).toString(CryptoJS.enc.Base64);
+							let hash = window.CryptoJS.SHA256(validation[0] + data).toString(window.CryptoJS.enc.Base64);
 							if (validation[1] === hash) {
 								correct_decryption = true;
 								context.data.data = data;
@@ -68,10 +68,10 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 		}
 		render(context){
 			const copyValue = (e) => {
-				var elem = document.getElementById(e.target.getAttribute("for"));
+                const elem = document.getElementById(e.target.getAttribute("for"));
 				elem.classList.add("copying");
-				var newElement = false;
-				var input;
+				let newElement = false;
+				let input;
 				if (elem.tagName.toUpperCase() == 'INPUT'){
 					input = elem;
 				} else {
@@ -89,7 +89,7 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 					elem.classList.remove("copying");
 				}, 500);
 			};
-			var ownerKey = localStorage.getItem("OWNER:" + context.data.key);
+			const ownerKey = localStorage.getItem("OWNER:" + context.data.key);
   			context.$el.querySelector("#shared-text-data").appendChild(document.createTextNode(context.data.data));
   			context.$el.querySelector('label[for="shared-text-data"]').addEventListener("click", copyValue, false);
 			context.$el.querySelector("#shared-text-key").value = helpers.formatCode(context.data.key);
@@ -98,14 +98,14 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 			context.$el.querySelector('label[for="shared-text-url"]').addEventListener("click", copyValue, false);
   			context.$el.querySelector("#shared-text-countdown").setAttribute("data-countdown", context.data.expiration);
 			if (ownerKey){
-				var $st = context.$el.querySelector('#shared-text-delete');
+				const $st = context.$el.querySelector('#shared-text-delete');
 				$st.querySelector('a').addEventListener("click", (e) => {
 					e.preventDefault();
-					var countdown = context.$el.querySelector("#shared-text-countdown");
-					var data = [];
+					const countdown = context.$el.querySelector("#shared-text-countdown");
+					let data = [];
 					data.push("key=" + encodeURIComponent(context.request.key));
 					data.push("owner-key=" + encodeURIComponent(ownerKey));
-					var headers = [];
+					let headers = [];
 					if (window.appConfig && window.appConfig['require-api-key']){
 						headers.push({
 							"name": "X-Api-Key",
@@ -113,14 +113,14 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 						});
 					}
 					helpers.ajax("DELETE", window.apiURL + "/stripe?" + data.join('&'), {}, headers, (response) => {
-						var data = [];
+						let data = [];
 						data.push("key=" + encodeURIComponent(context.request.key));
 						data.push("check-key=" + encodeURIComponent(response["check-key"]));
 						helpers.ajax("GET", window.apiURL + "/stripe?" + data.join('&'), {}, headers, (response) => {
 							alert("Error! Text was not deleted. Please, try again.");
 						}, (response, status) => {
 							if (status == 404) {
-								countdown.setAttribute("data-countdown", 0);
+								countdown.setAttribute("data-countdown", "0");
 								while ($st.firstChild) {
 									$st.removeChild($st.firstChild);
 								}
@@ -136,8 +136,8 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 				}, false);
 				$st.style.display = "block";
 			}
-  			var countdownObj = context.$el.querySelector("#shared-text-countdown");
-  			var countdown = helpers.countdownString(context.data.expiration);
+  			const countdownObj = context.$el.querySelector("#shared-text-countdown");
+            const countdown = helpers.countdownString(context.data.expiration);
 			countdownObj.querySelector('span').innerHTML = countdown.clock;
 			if (countdown.status == 'warning' && !countdownObj.classList.contains("warning")){
 				countdownObj.classList.add("warning");

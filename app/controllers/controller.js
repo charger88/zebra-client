@@ -2,12 +2,12 @@ define([], function () {
     return class {
 		constructor(request) {
 			request = request || {};
-			var context = {};
+            let context = {};
 			context.request = request || {};
 			context.$el = document.getElementById(this.el());
 			context.$el.classList.add("loading");
 		    this.init(context, (context) => {
-				var selected = document.querySelector("nav a.selected");
+                let selected = document.querySelector("nav a.selected");
 				if (selected !== null){
 					selected.classList.remove('selected');
 				}

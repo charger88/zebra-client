@@ -2,9 +2,10 @@ define([], function () {
     return {
     	'formatCode': (code) => {
     		const blockSize = code.length > 9 ? 4 : 3;
-    		var chunks = [];
-    		var chunkSize;
+            let chunks = [];
+            let chunkSize;
     		if (code.length > 4){
+                let l;
 	    		while (l = code.length){
 	    			chunkSize = l % blockSize;
 	    			chunkSize = chunkSize == 0 ? blockSize : (chunkSize == 1 ? 2 : chunkSize);
@@ -20,7 +21,7 @@ define([], function () {
 			return code.split("-").join("");
     	},
     	'getXAPIKey': () => {
-			var xApiKey = sessionStorage.getItem('x-api-key');
+            let xApiKey = sessionStorage.getItem('x-api-key');
 			if ((xApiKey === null) || (xApiKey === "null")){
 				xApiKey = prompt("Please, provide you X-API-Key");
 				if (xApiKey){
@@ -41,9 +42,9 @@ define([], function () {
 			if (countdown){
 				const timestamp = Math.ceil(Date.now() / 1000) + window.timeDiff;
 				const diff = countdown > timestamp ? (countdown - timestamp) : 0;
-				var h = Math.floor(diff / 3600);
-				var m = Math.floor(diff % 3600 / 60);
-				var s = Math.floor(diff % 60);
+				const h = Math.floor(diff / 3600);
+                const m = Math.floor(diff % 3600 / 60);
+                const s = Math.floor(diff % 60);
 				return {
 					"clock": (h + ":" + (m >= 10 ? m : "0" + m) + ":" + (s >= 10 ? s : "0" + s)),
 					"status": (diff < 60) ? ((diff > 0) ? "warning" : "gone") : "normal"
@@ -64,10 +65,10 @@ define([], function () {
     			alert(`Error (${status}): ${response['error-message']}`);
     		});
     		anywayCallback = anywayCallback || ((response) => {});
-			var xhttp = new XMLHttpRequest();
+			let xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				if (!((this.readyState == 1) || (this.readyState == 2) || (this.readyState == 3))) {
-					var response;
+					let response;
 					try {
 						response = JSON.parse(this.response);
 					} catch (e){

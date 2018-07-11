@@ -10,7 +10,7 @@ define(["helpers", "controllers/controller"], function (helpers, Controller) {
 			context.$el.querySelector("#open-form").addEventListener("submit", (e) => {
 				e.preventDefault();
 				let key = helpers.deFormatCode(e.target.querySelector('input[name="key"]').value);
-				let password = ""
+				let password = "";
 				let passwordInput = e.target.querySelector('input[name="password"]');
 				if (passwordInput){
 					password = passwordInput.value;
@@ -29,9 +29,10 @@ define(["helpers", "controllers/controller"], function (helpers, Controller) {
 				}
 				window.location.hash = "#open/" + key + (password.length > 0 ? "/p" : "");
 			}, false);
+            let obj;
 			const passwordPolicy = window.appConfig["password-policy"];
 			if (passwordPolicy === "disabled"){
-				var obj = context.$el.querySelector("#open-form-password-wrapper");
+				obj = context.$el.querySelector("#open-form-password-wrapper");
 				while (obj.firstChild) {
 					obj.removeChild(obj.firstChild);
 				}
@@ -42,7 +43,7 @@ define(["helpers", "controllers/controller"], function (helpers, Controller) {
 			}
 			const encryptionPasswordPolicy = window.appConfig["encryption-password-policy"];
 			if (encryptionPasswordPolicy === "disabled"){
-				var obj = context.$el.querySelector("#open-form-encryption-password-wrapper");
+                obj = context.$el.querySelector("#open-form-encryption-password-wrapper");
 				while (obj.firstChild) {
 					obj.removeChild(obj.firstChild);
 				}

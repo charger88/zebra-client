@@ -5,7 +5,7 @@ requirejs(["router", "helpers"], function(router, helpers) {
 				return false;
 			}
 			const versions = ["1.0."];
-			for (var i = 0;i < versions.length;i++){
+			for (let i = 0;i < versions.length;i++){
 				if (version.startsWith(versions[i])){
 					return true;
 				}
@@ -27,7 +27,7 @@ requirejs(["router", "helpers"], function(router, helpers) {
 			return true;
 		};
 		const loadAPIUrl = () => {
-			var apiURL = document.location.search || "?";
+            let apiURL = document.location.search || "?";
 			apiURL = (apiURL !== "?") ? apiURL.substr(1) : "";
 			if (apiURL.length === 0){
 				apiURL = sessionStorage.getItem('api-url');
@@ -41,7 +41,7 @@ requirejs(["router", "helpers"], function(router, helpers) {
 		};
 		window.apiURL = (window.location.protocol !== "https:") ? loadAPIUrl() : window.location.origin;
 		window.timeDiff = 0;
-		var now = Date.now();
+        let now = Date.now();
 		helpers.ajax("GET", window.apiURL + "/config", {}, [], (response) => {
 			if (initApp(response)){
 				document.querySelector("body").classList.remove("not-initialized");
@@ -61,7 +61,7 @@ requirejs(["router", "helpers"], function(router, helpers) {
 		});
 		setInterval(() => {
 			document.querySelectorAll(".countdown").forEach((item) => {
-				var countdown = helpers.countdownString(item.getAttribute("data-countdown"));
+                let countdown = helpers.countdownString(item.getAttribute("data-countdown"));
 				item.querySelector('span').innerHTML = countdown.clock;
 				if ((countdown.status == "warning") && !item.classList.contains("warning")){
 					item.classList.add("warning");
