@@ -125,7 +125,7 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 									$st.removeChild($st.firstChild);
 								}
 								$st.remove();
-								alert("Text was successully deleted");
+								alert("Text was successfully deleted");
 							} else if (status == 403) {
 								alert("Error! Text was not deleted. Please, try again.");
 							} else {
