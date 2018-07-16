@@ -30,8 +30,10 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 					context.data = response;
 					let validation = null;
 					let correct_decryption = false;
+					let data;
+					let hash;
 					do {
-						let data = context.data.data;
+						data = context.data.data;
 						if (context.data["encrypted-with-client-side-password"]){
 							p = window.ofsKey == response.key ? window.ofsEncryptionPassword : prompt("Decryption password required");
 							if (p === null){
@@ -43,21 +45,29 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 							data = data.join("|");
 						}
 						if ((p !== null) && (p.length > 0)){
-							data = window.CryptoJS.AES.decrypt(data, String(p)).toString(window.CryptoJS.enc.Utf8)
+							try {
+								data = window.CryptoJS.AES.decrypt(data, String(p)).toString(window.CryptoJS.enc.Utf8)
+							} catch (e) {
+								data = null;
+							}
 						}
-						if (validation){
-							let hash = window.CryptoJS.SHA256(validation[0] + data).toString(window.CryptoJS.enc.Base64);
-							if (validation[1] === hash) {
+						if (data !== null) {
+							if (validation) {
+								hash = window.CryptoJS.SHA256(validation[0] + data).toString(window.CryptoJS.enc.Base64);
+								if (validation[1] === hash) {
+									correct_decryption = true;
+									context.data.data = data;
+									renderCallback(context);
+								} else {
+									window.ofsKey = null;
+								}
+							} else {
 								correct_decryption = true;
 								context.data.data = data;
 								renderCallback(context);
-							} else {
-								window.ofsKey = null;
 							}
 						} else {
-							correct_decryption = true;
-							context.data.data = data;
-							renderCallback(context);
+							window.ofsKey = null;
 						}
 					} while(!correct_decryption);
 					window.ofsKey = null;
@@ -68,7 +78,7 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 		}
 		render(context){
 			const copyValue = (e) => {
-                const elem = document.getElementById(e.target.getAttribute("for"));
+				const elem = document.getElementById(e.target.getAttribute("for"));
 				elem.classList.add("copying");
 				let newElement = false;
 				let input;
@@ -137,7 +147,7 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
 				$st.style.display = "block";
 			}
   			const countdownObj = context.$el.querySelector("#shared-text-countdown");
-            const countdown = helpers.countdownString(context.data.expiration);
+			const countdown = helpers.countdownString(context.data.expiration);
 			countdownObj.querySelector('span').innerHTML = countdown.clock;
 			if (countdown.status == 'warning' && !countdownObj.classList.contains("warning")){
 				countdownObj.classList.add("warning");
