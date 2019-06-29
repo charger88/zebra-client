@@ -18,6 +18,7 @@
 			<ul>
 				<li><a href="#open">Open by key</a></li>
 				<li><a href="#share">Share text</a></li>
+				<li id="guests-link"><a href="#guests">Guests</a></li>
 			</ul>
 		</nav>
 		<main id="main"></main>
@@ -91,6 +92,13 @@
 			</div>
 			<div><button>Share</button></div>
 		</form>
+	</script>
+	<script type="text/template" id="tpl-guests">
+		<p>Authorized users of the system are allowed to create one-time (for one action) guest keys for people they want allow to work with the app.</p>
+		<form id="guests-form">
+			<div><button>Create one-time guest key</button></div>
+		</form>
+		<dl id="guests-keys-list"></dl>
 	</script>
 	<script type="text/template" id="tpl-shared-text">
 		<div id="shared-text"><div id="shared-text-data"></div><label for="shared-text-data">Copy text into clipboard</label></div>

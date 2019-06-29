@@ -25,7 +25,11 @@ define([], function () {
 			if ((xApiKey === null) || (xApiKey === "null")){
 				xApiKey = prompt("Please, provide you X-API-Key");
 				if (xApiKey){
-					sessionStorage.setItem("x-api-key", xApiKey);
+					if (xApiKey.substr(0, 2) === 'G_') {
+            xApiKey = xApiKey.substr(2);
+          } else {
+            sessionStorage.setItem("x-api-key", xApiKey);
+					}
 				}
 			}
 			return xApiKey;

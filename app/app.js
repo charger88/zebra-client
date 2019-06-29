@@ -17,13 +17,16 @@ requirejs(["router", "helpers"], function(router, helpers) {
 				return false;
 			}
 			window.appConfig = config;
-			document.querySelector("title").appendChild(document.createTextNode("🦓 " + config.name));
-			document.querySelector("#instance-name a").appendChild(document.createTextNode(config.name));
-			document.querySelector("header").style.background = config.color;
-			if (config.email) {
-				document.querySelector("#email-data").appendChild(document.createTextNode(config.email));
+			document.querySelector("title").appendChild(document.createTextNode("🦓 " + config['name']));
+			document.querySelector("#instance-name a").appendChild(document.createTextNode(config['name']));
+			document.querySelector("header").style.background = config['color'];
+			if (config['email']) {
+				document.querySelector("#email-data").appendChild(document.createTextNode(config['email']));
 				document.querySelector("#email-paragraph").style.display = "block";
 			}
+			if (!(config['require-api-key'] && config['guest-one-time-key'])){
+        document.querySelector("#guests-link").style.display = "none";
+      }
 			return true;
 		};
 		const loadAPIUrl = () => {
