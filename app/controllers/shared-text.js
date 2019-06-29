@@ -94,7 +94,16 @@ define(['helpers', 'controllers/controller', 'crypto/sha256'], function (helpers
           elem.appendChild(input);
           newElement = true;
         }
-        input.select();
+        if (navigator.userAgent.match(/ipad|iphone/i)){
+          const range = document.createRange();
+          range.selectNodeContents(input);
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+          input.setSelectionRange(0, 999999);
+        } else {
+          input.select();
+        }
         document.execCommand("copy");
         input.setSelectionRange(0, 0);
         !newElement || elem.removeChild(input);
