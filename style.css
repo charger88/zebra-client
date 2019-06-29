@@ -416,7 +416,8 @@ footer p:last-child {
 	transition: all 0.5s;
 	display: block;
 	padding-bottom: 0.2rem;
-	margin-bottom: 0.2rem
+	margin-bottom: 0.2rem;
+    outline: none;
 }
 
 #shared-text-key {
